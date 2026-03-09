@@ -13,6 +13,7 @@
   --font-body: 'DM Sans', sans-serif;
   --font-display: 'Cormorant Garamond', serif;
   --font-ar: 'Noto Naskh Arabic', serif;
+  --font-ar-calligraphy: 'Aref Ruqaa', serif;
 }
 
 *,
@@ -59,6 +60,11 @@ a {
 body[data-locale='ar'] .font-display {
   font-family: var(--font-ar);
   font-weight: 600;
+}
+
+.font-ar-calligraphy {
+  font-family: var(--font-ar-calligraphy);
+  font-weight: 400;
 }
 
 .input-ring:focus-visible {

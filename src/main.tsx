@@ -7,6 +7,7 @@ import '@fontsource/cormorant-garamond/latin-500.css'
 import '@fontsource/cormorant-garamond/latin-600.css'
 import '@fontsource/noto-naskh-arabic/arabic-400.css'
 import '@fontsource/noto-naskh-arabic/arabic-600.css'
+import '@fontsource/aref-ruqaa/400.css'
 import App from './App'
 import './style.css'
 

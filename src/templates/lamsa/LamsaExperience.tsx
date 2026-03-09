@@ -9,6 +9,7 @@ import { PasswordGate } from './flow/PasswordGate'
 import { ClosingSection } from './sections/ClosingSection'
 import { DateSection } from './sections/DateSection'
 import { MessageSection } from './sections/MessageSection'
+import { NamesHeader } from './sections/NamesHeader'
 import { PhotosSection } from './sections/PhotosSection'
 import { WelcomeSection } from './sections/WelcomeSection'
 
@@ -85,8 +86,13 @@ export function LamsaExperience({ config }: LamsaExperienceProps) {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.62, ease: [0.2, 0.65, 0.3, 1] }}
-              className="space-y-4 pt-12 sm:space-y-5 sm:pt-16"
+              className="space-y-4 pt-20 sm:space-y-5 sm:pt-24"
             >
+              <NamesHeader
+                receiverName={config.receiverName}
+                senderName={config.senderName}
+                locale={config.locale}
+              />
               <WelcomeSection
                 receiverName={config.receiverName}
                 senderName={config.senderName}
