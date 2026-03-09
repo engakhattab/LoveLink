@@ -24,6 +24,14 @@ Production-ready romantic mini-site template for the **Lamsa / لمسة** packag
 
 ## Run Locally
 
+From repository root:
+
+```bash
+cd Lamsa
+```
+
+Then run:
+
 ```bash
 npm install
 npm run dev
