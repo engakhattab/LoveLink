@@ -1,0 +1,14 @@
+<svg width="900" height="1200" viewBox="0 0 900 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="890" y1="70" x2="40" y2="1200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F9E7DC"/>
+      <stop offset="1" stop-color="#E4BFB5"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg2)"/>
+  <rect x="84" y="152" width="732" height="896" rx="52" fill="white" fill-opacity="0.36"/>
+  <path d="M130 820C220 690 350 690 450 780C560 878 662 880 770 760V1054H130V820Z" fill="#CB8B89" fill-opacity="0.34"/>
+  <path d="M130 760C230 640 320 650 430 740C535 826 650 826 770 698V978H130V760Z" fill="#F2D2CC" fill-opacity="0.8"/>
+  <circle cx="690" cy="292" r="145" fill="#FFFFFF" fill-opacity="0.45"/>
+  <text x="450" y="618" text-anchor="middle" fill="#7C5451" font-size="52" font-family="Georgia, serif">Memory 02</text>
+</svg>

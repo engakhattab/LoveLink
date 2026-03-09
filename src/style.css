@@ -1,0 +1,78 @@
+@import 'tailwindcss';
+
+:root {
+  --bg-shell: #f4ece8;
+  --ink-main: #4f3936;
+  --ink-soft: #7f6763;
+  --rose-main: #b77f83;
+  --rose-soft: #d7a5a8;
+  --particle-rose: rgba(183, 127, 131, 0.5);
+  --particle-ivory: rgba(255, 240, 232, 0.5);
+  --card-border: rgba(255, 255, 255, 0.62);
+  --card-shadow: 0 24px 60px rgba(87, 53, 53, 0.14);
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-ar: 'Noto Naskh Arabic', serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: var(--font-body);
+  color: var(--ink-main);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(75% 65% at 0% -5%, rgba(255, 255, 255, 0.75) 0%, transparent 72%),
+    radial-gradient(70% 60% at 105% 0%, rgba(222, 176, 176, 0.36) 0%, transparent 68%),
+    linear-gradient(180deg, #fdf8f5 0%, #f7efeb 48%, var(--bg-shell) 100%);
+}
+
+body[data-locale='ar'] {
+  font-family: var(--font-ar);
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(183, 127, 131, 0.24);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+body[data-locale='ar'] .font-display {
+  font-family: var(--font-ar);
+  font-weight: 600;
+}
+
+.input-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(183, 127, 131, 0.22);
+}
+
+.soft-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(183, 127, 131, 0) 0%,
+    rgba(183, 127, 131, 0.35) 50%,
+    rgba(183, 127, 131, 0) 100%
+  );
+}

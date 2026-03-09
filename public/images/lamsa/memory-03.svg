@@ -1,0 +1,15 @@
+<svg width="900" height="1200" viewBox="0 0 900 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg3" x1="120" y1="130" x2="860" y2="1160" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBEADF"/>
+      <stop offset="1" stop-color="#E7C7BE"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg3)"/>
+  <rect x="86" y="146" width="728" height="908" rx="48" fill="white" fill-opacity="0.39"/>
+  <ellipse cx="314" cy="280" rx="168" ry="126" fill="#D59A95" fill-opacity="0.38"/>
+  <ellipse cx="600" cy="416" rx="210" ry="156" fill="#EFC7BC" fill-opacity="0.74"/>
+  <ellipse cx="362" cy="760" rx="248" ry="184" fill="#C98586" fill-opacity="0.2"/>
+  <ellipse cx="654" cy="858" rx="146" ry="112" fill="#FFFFFF" fill-opacity="0.42"/>
+  <text x="450" y="618" text-anchor="middle" fill="#7C5451" font-size="52" font-family="Georgia, serif">Memory 03</text>
+</svg>
