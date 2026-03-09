@@ -84,7 +84,7 @@ export const lamsaCopy: Record<GiftLocale, LamsaCopy> = {
     welcomeTitle: 'ليكي يا أغلى الناس💋',
     welcomeText: 'أتمنى الويبسايت ده يعبر عن قد إيه بحبك وبقدر الذكريات الحلوة اللي عشناها سوا.🌹',
     dateEyebrow: 'تاريخ حبنا👩‍❤️‍👨',
-    dateTitle: 'يوم لسه محفور في قلبنا مش هننساه💖',
+    dateTitle: 'يوم لسه محفور في قلبينا مش هننساه💖',
     dateLabel: 'التاريخ',
     dateCaption: 'اليوم ده مش هنساه ابدا وده يوم مميز في حياتنا. ممتن لأني عشته معاكي💖',
     photosEyebrow: 'ذكرياتنا👫',
