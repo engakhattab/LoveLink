@@ -1,0 +1,14 @@
+<svg width="900" height="1200" viewBox="0 0 900 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg05" x1="840" y1="84" x2="76" y2="1130" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#260835"/>
+      <stop offset="1" stop-color="#110418"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg05)"/>
+  <rect x="90" y="150" width="720" height="900" rx="52" fill="rgba(255,255,255,0.06)"/>
+  <ellipse cx="246" cy="260" rx="156" ry="116" fill="#FF79BE" fill-opacity="0.36"/>
+  <ellipse cx="608" cy="258" rx="196" ry="152" fill="#FFBE55" fill-opacity="0.2"/>
+  <path d="M124 928C206 866 302 858 400 902C498 946 610 952 776 838V1064H124V928Z" fill="#FF5BA8" fill-opacity="0.3"/>
+  <text x="450" y="620" text-anchor="middle" fill="#FFE8F7" font-size="54" font-family="Georgia, serif">Zekra 05</text>
+</svg>

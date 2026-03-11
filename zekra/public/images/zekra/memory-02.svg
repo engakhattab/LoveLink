@@ -1,0 +1,14 @@
+<svg width="900" height="1200" viewBox="0 0 900 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg02" x1="860" y1="92" x2="40" y2="1160" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#371039"/>
+      <stop offset="1" stop-color="#0D0312"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg02)"/>
+  <rect x="90" y="150" width="720" height="900" rx="52" fill="rgba(255,255,255,0.06)"/>
+  <path d="M134 798C222 672 336 664 444 748C554 836 648 836 770 704V1052H134V798Z" fill="#FF5EAB" fill-opacity="0.32"/>
+  <path d="M134 738C228 628 328 636 430 718C526 794 644 804 770 680V990H134V738Z" fill="#FFBE55" fill-opacity="0.34"/>
+  <circle cx="664" cy="282" r="150" fill="#FF8CC6" fill-opacity="0.34"/>
+  <text x="450" y="620" text-anchor="middle" fill="#FFE8F7" font-size="54" font-family="Georgia, serif">Zekra 02</text>
+</svg>

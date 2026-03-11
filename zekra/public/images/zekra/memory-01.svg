@@ -1,0 +1,18 @@
+<svg width="900" height="1200" viewBox="0 0 900 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg01" x1="120" y1="80" x2="840" y2="1160" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2A0A34"/>
+      <stop offset="1" stop-color="#110415"/>
+    </linearGradient>
+    <radialGradient id="glow01" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(652 228) rotate(120.4) scale(300 260)">
+      <stop stop-color="#FF6AB8" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#FF6AB8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg01)"/>
+  <rect x="94" y="154" width="712" height="892" rx="48" fill="rgba(255,255,255,0.06)"/>
+  <ellipse cx="644" cy="236" rx="182" ry="144" fill="url(#glow01)"/>
+  <circle cx="238" cy="322" r="122" fill="#F76FB7" fill-opacity="0.34"/>
+  <circle cx="624" cy="840" r="166" fill="#FFBE55" fill-opacity="0.18"/>
+  <text x="450" y="620" text-anchor="middle" fill="#FFDDF0" font-size="54" font-family="Georgia, serif">Zekra 01</text>
+</svg>

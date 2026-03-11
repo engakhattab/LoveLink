@@ -1,0 +1,137 @@
+@import 'tailwindcss';
+
+:root {
+  --bg-void: #07040f;
+  --bg-shadow: #15071d;
+  --bg-card: rgba(27, 10, 36, 0.8);
+  --bg-card-soft: rgba(37, 16, 49, 0.74);
+  --bg-card-gold: rgba(56, 34, 24, 0.76);
+  --ink-main: #ffe8f6;
+  --ink-soft: #e8c7dc;
+  --ink-muted: #bf9eb6;
+  --rose-main: #ff4e9f;
+  --rose-deep: #c72570;
+  --gold-accent: #ffbe55;
+  --ring-soft: rgba(255, 78, 159, 0.34);
+  --panel-border: rgba(255, 190, 85, 0.2);
+  --shadow-glow: 0 24px 58px rgba(247, 52, 144, 0.22);
+  --particle-rose: rgba(255, 88, 169, 0.72);
+  --particle-gold: rgba(255, 197, 103, 0.7);
+  --particle-soft: rgba(255, 245, 234, 0.64);
+  --font-body: 'DM Sans', sans-serif;
+  --font-script: 'Great Vibes', cursive;
+  --font-ar: 'Amiri', serif;
+  --font-ar-thuluth: 'Aref Ruqaa', 'Amiri', serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: var(--font-body);
+  color: var(--ink-main);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(48% 45% at 12% -4%, rgba(255, 85, 166, 0.28), transparent 70%),
+    radial-gradient(45% 42% at 92% -8%, rgba(255, 188, 96, 0.26), transparent 72%),
+    radial-gradient(48% 40% at 70% 30%, rgba(120, 32, 90, 0.34), transparent 75%),
+    linear-gradient(180deg, #180726 0%, #11031a 46%, var(--bg-void) 100%);
+}
+
+body[data-locale='ar'] {
+  font-family: var(--font-ar);
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(255, 78, 159, 0.32);
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+.font-ar-display {
+  font-family: var(--font-ar);
+  letter-spacing: 0.01em;
+}
+
+.font-ar-body {
+  font-family: var(--font-ar);
+}
+
+.font-ar-thuluth {
+  font-family: var(--font-ar-thuluth);
+  letter-spacing: 0.01em;
+}
+
+.input-ring:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px var(--ring-soft),
+    0 0 24px rgba(255, 82, 166, 0.34);
+}
+
+.input-ring:hover {
+  border-color: rgba(255, 117, 185, 0.62);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.heart-divider {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 78, 159, 0),
+    rgba(255, 78, 159, 0.52) 38%,
+    rgba(255, 190, 85, 0.56) 62%,
+    rgba(255, 190, 85, 0)
+  );
+}
+
+.heart-divider::after {
+  content: '❤';
+  position: absolute;
+  left: 50%;
+  top: -0.84rem;
+  transform: translateX(-50%);
+  color: var(--rose-main);
+  font-size: 0.75rem;
+  text-shadow: 0 0 10px rgba(255, 89, 170, 0.6);
+}
+
+.panda-shadow {
+  filter: drop-shadow(0 14px 26px rgba(255, 72, 156, 0.25));
+}
