@@ -45,6 +45,17 @@ export function ZekraExperience({ config }: ZekraExperienceProps) {
   const [stage, setStage] = useState<ExperienceStage>('locked')
   const copy = useMemo(() => zekraCopy[config.locale], [config.locale])
   const direction = config.locale === 'ar' ? 'rtl' : 'ltr'
+  const isLowEndDevice = useMemo(() => {
+    if (typeof navigator === 'undefined') {
+      return false
+    }
+
+    const deviceNavigator = navigator as Navigator & { deviceMemory?: number }
+    const cores = deviceNavigator.hardwareConcurrency || 4
+    const memory = deviceNavigator.deviceMemory || 4
+
+    return cores < 4 || memory < 3
+  }, [])
 
   useEffect(() => {
     document.documentElement.lang = config.locale
@@ -79,7 +90,7 @@ export function ZekraExperience({ config }: ZekraExperienceProps) {
           <h1 className="mb-2 text-3xl text-[var(--ink-main)]">
             {copy.invalidConfigTitle}
           </h1>
-          <p className="text-[0.96rem] text-[var(--ink-soft)]">
+          <p className="text-base text-[var(--ink-soft)]">
             {copy.invalidConfigText}
           </p>
         </GlassPanel>
@@ -89,7 +100,10 @@ export function ZekraExperience({ config }: ZekraExperienceProps) {
 
   return (
     <div dir={direction} className="relative min-h-screen overflow-x-clip">
-      <AmbientRomance mode={stage === 'locked' ? 'lock' : 'default'} />
+      <AmbientRomance
+        mode={stage === 'locked' ? 'lock' : 'default'}
+        reducedParticles={isLowEndDevice}
+      />
 
       <div className="relative z-10 mx-auto w-full max-w-[66rem] px-4 pt-5 pb-16 sm:px-8 sm:pt-8">
         <AnimatePresence mode="wait">

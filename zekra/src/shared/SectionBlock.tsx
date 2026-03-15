@@ -28,8 +28,8 @@ export function SectionBlock({
       transition={{ duration: 0.58, ease: [0.2, 0.65, 0.3, 1] }}
     >
       <GlassPanel accent={accent} className={clsx('overflow-hidden', className)}>
-        <p className="mb-1 text-[0.68rem] font-semibold tracking-[0.18em] uppercase text-[var(--rose-main)]">
-          <span className="me-1.5 text-[var(--gold-accent)]">●</span>
+        <p className="mb-1 text-xs font-semibold tracking-[0.18em] uppercase text-[var(--rose-main)]">
+          <span className="me-1.5 text-[var(--gold-accent)]">•</span>
           {eyebrow}
         </p>
         <h2 className="mb-5 text-[1.68rem] leading-tight text-[var(--ink-main)] sm:text-[2rem]">

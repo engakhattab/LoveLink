@@ -42,7 +42,13 @@ export function PandaBridge({
             />
           ) : (
             <div className="px-4 py-6 text-center">
-              <p className="mb-2 text-5xl">🐼💞🐼</p>
+              <motion.p
+                className="mb-2 text-5xl"
+                animate={{ scale: [1, 0.95, 1.05, 1], rotate: [0, -2, 2, 0] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                {'\uD83D\uDC3C\uD83D\uDC9E\uD83D\uDC3C'}
+              </motion.p>
               <p className="text-sm text-[var(--ink-soft)]">{copy.loadingFallback}</p>
             </div>
           )}

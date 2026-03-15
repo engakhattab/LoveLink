@@ -91,7 +91,7 @@ function PhotoCard({ index, photo, locale, copy }: PhotoCardProps) {
         className="h-[15.5rem] w-full object-cover transition duration-500 group-hover:scale-[1.04] sm:h-[20rem]"
       />
       <figcaption
-        className={`min-h-[3.1rem] border-t border-white/12 bg-[rgba(12,3,18,0.74)] px-2.5 py-2 text-[0.8rem] text-[var(--ink-soft)] ${isArabic ? 'font-ar-body text-sm leading-6' : 'leading-5'}`}
+        className={`min-h-[3.1rem] border-t border-white/12 bg-[rgba(12,3,18,0.74)] px-2.5 py-2 text-sm text-[var(--ink-soft)] ${isArabic ? 'font-ar-body text-sm leading-6' : 'leading-5'}`}
       >
         {photo.caption}
       </figcaption>

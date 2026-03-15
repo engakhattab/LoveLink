@@ -23,11 +23,9 @@ interface DateDialProps {
 }
 
 const NAME_DECOR = [
-  { glyph: '\u2665', delay: 0 },
-  { glyph: '\u2726', delay: 0.12 },
-  { glyph: '\u2666', delay: 0.24 },
-  { glyph: '\u2726', delay: 0.36 },
-  { glyph: '\u2665', delay: 0.48 },
+  { glyph: '\u2726', delay: 0, sizeClass: 'text-sm' },
+  { glyph: '\u2665', delay: 0.12, sizeClass: 'text-lg' },
+  { glyph: '\u2726', delay: 0.24, sizeClass: 'text-sm' },
 ] as const
 
 const HEART_DOTS = [
@@ -57,23 +55,23 @@ function DateDial({ label, value, pad, onIncrease, onDecrease }: DateDialProps) 
     <div className="relative flex h-[7.8rem] w-[4.5rem] flex-col items-center justify-between rounded-[2.2rem] border border-[rgba(255,255,255,0.48)] bg-[rgba(255,255,255,0.16)] py-2 shadow-[0_8px_20px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.54)] backdrop-blur-[16px]">
       <span className="sr-only">{label}</span>
       <button
-        className="flex h-7 w-8 items-center justify-center rounded-full text-lg text-white/90 transition hover:scale-[1.05]"
+        className="flex h-10 w-10 items-center justify-center rounded-full text-base text-white/90 transition hover:scale-[1.05]"
         onClick={onIncrease}
         type="button"
         aria-label={`Increase ${label}`}
       >
-        ▲
+        {'\u25B2'}
       </button>
-      <div className="flex h-10 w-14 items-center justify-center rounded-xl bg-[rgba(255,255,255,0.96)] text-[1.06rem] font-black text-[var(--rose-deep)] shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
+      <div className="flex h-10 w-14 items-center justify-center rounded-xl bg-[rgba(255,255,255,0.96)] text-lg font-black text-[var(--rose-deep)] shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
         {value.toString().padStart(pad, '0')}
       </div>
       <button
-        className="flex h-7 w-8 items-center justify-center rounded-full text-lg text-white/90 transition hover:scale-[1.05]"
+        className="flex h-10 w-10 items-center justify-center rounded-full text-base text-white/90 transition hover:scale-[1.05]"
         onClick={onDecrease}
         type="button"
         aria-label={`Decrease ${label}`}
       >
-        ▼
+        {'\u25BC'}
       </button>
     </div>
   )
@@ -152,7 +150,7 @@ export function HeartDateGate({
         <span className="absolute -top-16 -right-14 h-40 w-40 rounded-full bg-[rgba(255,126,196,0.22)] blur-3xl" />
         <span className="absolute -bottom-20 -left-16 h-44 w-44 rounded-full bg-[rgba(255,188,96,0.12)] blur-3xl" />
 
-        <p className="mb-1 text-center text-xs font-semibold tracking-[0.16em] uppercase text-[var(--gold-accent)]">
+        <p className="mb-1 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[var(--gold-accent)]">
           {copy.lockKicker}
         </p>
         <h1 className="font-script mb-1.5 text-center text-[2.55rem] leading-[0.95] text-[var(--ink-main)] sm:text-5xl">
@@ -160,7 +158,7 @@ export function HeartDateGate({
         </h1>
         <p
           className={`mx-auto mb-1 max-w-[23rem] text-center text-sm text-[var(--ink-soft)] ${
-            isArabic ? 'font-ar-body text-[1.03rem] leading-8' : ''
+            isArabic ? 'font-ar-body text-base leading-8' : ''
           }`}
         >
           {copy.lockSubtitle}
@@ -172,21 +170,25 @@ export function HeartDateGate({
               : 'text-sm text-[var(--ink-muted)]'
           }`}
         >
-          {receiverName} <span className="mx-1 text-[var(--rose-main)]">❤</span> {senderName}
+          {receiverName} <span className="mx-1 text-[var(--rose-main)]">{'\u2764'}</span> {senderName}
         </p>
 
-        <div className="mb-4 flex items-center justify-center gap-2">
+        <div className="mb-4 flex items-center justify-center gap-3">
           {NAME_DECOR.map((item, index) => (
             <motion.span
               key={`${item.glyph}-${index}`}
-              animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5], y: [0, -2, 0] }}
+              animate={
+                index === 1
+                  ? {}
+                  : { scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6], y: [0, -2, 0] }
+              }
               transition={{
                 duration: 1.9,
                 repeat: Infinity,
                 ease: 'easeInOut',
                 delay: item.delay,
               }}
-              className="text-[var(--rose-main)] drop-shadow-[0_0_10px_rgba(255,78,159,0.5)]"
+              className={`${item.sizeClass} text-[var(--rose-main)] drop-shadow-[0_0_10px_rgba(255,78,159,0.5)]`}
             >
               {item.glyph}
             </motion.span>
@@ -235,7 +237,7 @@ export function HeartDateGate({
               ))}
             </motion.div>
 
-            <div className="absolute left-1/2 top-[55%] z-10 -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute left-1/2 top-[52%] z-10 -translate-x-1/2 -translate-y-1/2">
               <div className="flex gap-2">
                 <DateDial
                   label={copy.yearLabel}
@@ -279,15 +281,18 @@ export function HeartDateGate({
           </motion.div>
 
           {error ? (
-            <p
-              className={`mb-3 text-center text-sm text-[#ffc4dd] ${
-                isArabic ? 'font-ar-body text-base' : ''
-              }`}
-            >
-              {error}
-            </p>
+            <div className="mx-auto mb-3 max-w-[17rem] rounded-xl border border-[rgba(255,80,140,0.45)] bg-[rgba(255,60,120,0.16)] px-4 py-2.5 backdrop-blur-sm">
+              <p
+                className={`text-center text-sm font-medium text-[#ffe8f4] ${
+                  isArabic ? 'font-ar-body text-base' : ''
+                }`}
+              >
+                <span className="mr-1.5">{'\u26A0\uFE0F'}</span>
+                {error}
+              </p>
+            </div>
           ) : (
-            <p className="mb-3 text-center text-[0.82rem] text-[var(--ink-muted)]">
+            <p className="mb-3 text-center text-sm text-[var(--ink-muted)]">
               {year.toString().padStart(4, '0')}-
               {month.toString().padStart(2, '0')}-
               {day.toString().padStart(2, '0')}

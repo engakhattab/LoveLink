@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'
 import { SectionBlock } from '../../../shared/SectionBlock'
 import type { UnlockDate, ZekraLocale } from '../../../types/zekra'
@@ -15,6 +16,14 @@ interface CounterValues {
   hours: number
   minutes: number
   seconds: number
+}
+
+type CounterKey = keyof CounterValues
+
+interface CounterCell {
+  key: CounterKey
+  label: string
+  value: number
 }
 
 function addYears(date: Date, years: number) {
@@ -59,6 +68,7 @@ function getCounterValues(start: Date, end: Date): CounterValues {
 
 export function LoveCounter({ unlockDate, locale, copy }: LoveCounterProps) {
   const [now, setNow] = useState(() => new Date())
+  const [prevValues, setPrevValues] = useState<CounterValues>()
   const isArabic = locale === 'ar'
 
   useEffect(() => {
@@ -71,14 +81,18 @@ export function LoveCounter({ unlockDate, locale, copy }: LoveCounterProps) {
     [unlockDate.day, unlockDate.month, unlockDate.year],
   )
 
-  const values = getCounterValues(startDate, now)
+  const values = useMemo(() => getCounterValues(startDate, now), [startDate, now])
 
-  const cells = [
-    { label: copy.yearsLabel, value: values.years },
-    { label: copy.monthsLabel, value: values.months },
-    { label: copy.hoursLabel, value: values.hours },
-    { label: copy.minutesLabel, value: values.minutes },
-    { label: copy.secondsLabel, value: values.seconds },
+  useEffect(() => {
+    setPrevValues(values)
+  }, [values])
+
+  const cells: CounterCell[] = [
+    { key: 'years', label: copy.yearsLabel, value: values.years },
+    { key: 'months', label: copy.monthsLabel, value: values.months },
+    { key: 'hours', label: copy.hoursLabel, value: values.hours },
+    { key: 'minutes', label: copy.minutesLabel, value: values.minutes },
+    { key: 'seconds', label: copy.secondsLabel, value: values.seconds },
   ]
 
   return (
@@ -90,25 +104,31 @@ export function LoveCounter({ unlockDate, locale, copy }: LoveCounterProps) {
       className="relative"
     >
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
-        {cells.map((cell, index) => (
-          <div
-            key={`${cell.label}-${index}`}
-            className="rounded-2xl border border-[rgba(255,190,85,0.32)] bg-[rgba(255,255,255,0.06)] px-3 py-3 text-center"
-          >
-            <p className="mb-1 text-3xl font-bold text-[var(--ink-main)]">
-              {cell.value.toString().padStart(2, '0')}
-            </p>
-            <p
-              className={`text-[0.7rem] text-[var(--ink-muted)] ${
-                isArabic
-                  ? 'font-ar-body text-sm tracking-normal'
-                  : 'tracking-[0.12em] uppercase'
-              }`}
+        {cells.map((cell, index) => {
+          const hasChanged = prevValues ? prevValues[cell.key] !== cell.value : false
+
+          return (
+            <motion.div
+              key={`${cell.label}-${index}`}
+              animate={hasChanged ? { scale: [1, 1.08, 1] } : { scale: 1 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="rounded-2xl border border-[rgba(255,190,85,0.32)] bg-[rgba(255,255,255,0.06)] px-3 py-3 text-center"
             >
-              {cell.label}
-            </p>
-          </div>
-        ))}
+              <p className="mb-1 text-3xl font-bold text-[var(--ink-main)]">
+                {cell.value.toString().padStart(2, '0')}
+              </p>
+              <p
+                className={`text-xs text-[var(--ink-muted)] ${
+                  isArabic
+                    ? 'font-ar-body text-sm tracking-normal'
+                    : 'tracking-[0.12em] uppercase'
+                }`}
+              >
+                {cell.label}
+              </p>
+            </motion.div>
+          )
+        })}
       </div>
     </SectionBlock>
   )

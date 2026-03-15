@@ -31,7 +31,7 @@ function splitToLines(finalMessage: string, finalLines?: string[]) {
 
   const sentenceLines =
     finalMessage
-      .match(/[^.!؟]+[.!؟]?/g)
+      .match(/[^.!\u061F]+[.!\u061F]?/g)
       ?.map((line) => line.trim())
       .filter((line) => line.length > 0) ?? []
   if (sentenceLines.length > 1) {
@@ -113,9 +113,10 @@ export function FloatingFinalMessage({
               {isOpen ? (
                 <motion.section
                   key="final-fullscreen-window"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
+                  initial={{ opacity: 0, scale: 0.94 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.4, ease: [0.2, 0.65, 0.3, 1] }}
                   className="fixed inset-0 z-[999] overflow-y-auto bg-[linear-gradient(180deg,rgba(28,8,36,0.985),rgba(12,4,19,0.99))]"
                 >
                   <div className="mx-auto flex min-h-screen w-full max-w-[46rem] flex-col px-4 py-6 sm:px-6 sm:py-8">
@@ -123,9 +124,9 @@ export function FloatingFinalMessage({
                       <button
                         type="button"
                         onClick={() => setIsOpen(false)}
-                        className="inline-flex h-10 items-center gap-2 rounded-full border border-[rgba(255,190,85,0.35)] bg-[rgba(255,255,255,0.06)] px-4 text-sm text-[var(--ink-main)] transition hover:bg-[rgba(255,255,255,0.12)]"
+                        className="inline-flex h-12 min-w-[44px] items-center gap-2 rounded-full border border-[rgba(255,190,85,0.4)] bg-[rgba(255,255,255,0.08)] px-5 text-sm font-medium text-[var(--ink-main)] shadow-sm transition hover:bg-[rgba(255,255,255,0.14)]"
                       >
-                        <span aria-hidden>←</span>
+                        <span aria-hidden>{locale === 'ar' ? '\u2192' : '\u2190'}</span>
                         {copy.finalReturnButton}
                       </button>
                     </div>
@@ -143,7 +144,7 @@ export function FloatingFinalMessage({
                         className="relative h-full overflow-hidden rounded-[32px] border border-[rgba(255,190,85,0.46)] bg-[linear-gradient(170deg,rgba(57,18,49,0.96),rgba(21,7,27,0.97))] px-5 py-8 shadow-[0_30px_68px_rgba(255,70,158,0.34)] sm:px-7 sm:py-10"
                       >
                         <span className="absolute -top-14 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full bg-[rgba(255,190,85,0.2)] blur-2xl" />
-                        <p className="mb-2 text-center text-2xl text-[var(--rose-main)]">❤</p>
+                        <p className="mb-2 text-center text-2xl text-[var(--rose-main)]">{'\u2764'}</p>
                         <h3
                           className={`mb-5 text-center text-[var(--ink-main)] ${isArabic ? 'font-ar-thuluth text-[2.35rem] leading-[1.3]' : 'font-script text-5xl leading-none'}`}
                         >
@@ -159,7 +160,7 @@ export function FloatingFinalMessage({
                             show: {
                               transition: {
                                 delayChildren: 0.38,
-                                staggerChildren: 0.55,
+                                staggerChildren: 0.35,
                               },
                             },
                           }}
@@ -173,7 +174,7 @@ export function FloatingFinalMessage({
                                 show: { opacity: 1, y: 0, filter: 'blur(0px)' },
                               }}
                               transition={{ duration: 0.72, ease: [0.2, 0.65, 0.3, 1] }}
-                              className={`text-center text-[var(--ink-main)] ${isArabic ? 'font-ar-body text-[1.12rem] leading-8' : 'text-[1rem] leading-8'}`}
+                              className={`text-center text-[var(--ink-main)] ${isArabic ? 'font-ar-body text-lg leading-8' : 'text-base leading-8'}`}
                             >
                               {line}
                             </motion.p>

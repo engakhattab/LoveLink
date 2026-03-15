@@ -75,6 +75,11 @@ export function MessageDeck({ messages, locale, copy }: MessageDeckProps) {
     if (dragDistanceRef.current > 10) {
       return
     }
+
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      navigator.vibrate(12)
+    }
+
     setRevealed((state) =>
       state.map((value, stateIndex) => (stateIndex === index ? !value : value)),
     )
@@ -95,7 +100,13 @@ export function MessageDeck({ messages, locale, copy }: MessageDeckProps) {
         {copy.swipeHint}
       </p>
 
-      <div className="mx-auto max-w-[24rem] overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.45, ease: [0.2, 0.65, 0.3, 1] }}
+        className="mx-auto max-w-[24rem] overflow-hidden"
+      >
         <div className="[perspective:1200px]">
           <AnimatePresence custom={slideDirection} initial={false} mode="wait">
             <motion.button
@@ -144,9 +155,9 @@ export function MessageDeck({ messages, locale, copy }: MessageDeckProps) {
                 >
                   <div className="flex h-full flex-col items-center justify-center text-center">
                     <p className="mb-3 text-5xl drop-shadow-[0_0_14px_rgba(255,95,177,0.55)]">
-                      🐻
+                      {'\uD83E\uDDF8'}
                     </p>
-                    <p className="mb-2 text-sm font-semibold tracking-[0.12em] uppercase text-[var(--ink-main)]">
+                    <p className="mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--ink-main)]">
                       {activeMessage.coverLabel}
                     </p>
                     <p className={`text-[var(--ink-soft)] ${isArabic ? 'font-ar-body text-base leading-8' : 'text-sm leading-7'}`}>
@@ -158,13 +169,13 @@ export function MessageDeck({ messages, locale, copy }: MessageDeckProps) {
                 <div
                   className={`backface-hidden rotate-y-180 absolute inset-0 rounded-[24px] border p-5 shadow-[0_18px_42px_rgba(0,0,0,0.3)] ${cardClassByAccent[activeAccent]}`}
                 >
-                  <p className="mb-2 text-xs font-semibold tracking-[0.15em] uppercase text-[var(--rose-main)]">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--rose-main)]">
                     {activeMessage.coverLabel}
                   </p>
-                  <h3 className={`mb-4 text-[1.45rem] text-[var(--ink-main)] ${isArabic ? 'font-ar-display leading-[1.35]' : 'font-script text-4xl leading-[0.9]'}`}>
+                  <h3 className={`mb-4 text-2xl text-[var(--ink-main)] ${isArabic ? 'font-ar-display leading-[1.35]' : 'font-script text-4xl leading-[0.9]'}`}>
                     {activeMessage.title}
                   </h3>
-                  <p className={`mb-4 text-[var(--ink-soft)] ${isArabic ? 'font-ar-body text-base leading-8' : 'text-[0.96rem] leading-7'}`}>
+                  <p className={`mb-4 text-[var(--ink-soft)] ${isArabic ? 'font-ar-body text-base leading-8' : 'text-base leading-7'}`}>
                     {activeMessage.body}
                   </p>
                   <p className="text-2xl">{activeMessage.emoji}</p>
@@ -173,7 +184,7 @@ export function MessageDeck({ messages, locale, copy }: MessageDeckProps) {
             </motion.button>
           </AnimatePresence>
         </div>
-      </div>
+      </motion.div>
 
       <div className="mt-4 flex items-center justify-between gap-3">
         <button
