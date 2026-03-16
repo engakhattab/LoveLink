@@ -209,18 +209,11 @@ export function ChapterHub({
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.96 }}
             onClick={() => {
-              const popup = window.open(
+              void window.open(
                 finalCelebrationUrl,
                 '_blank',
                 'noopener,noreferrer',
               )
-              if (!popup) {
-                window.alert(
-                  locale === 'ar'
-                    ? 'لم نتمكن من فتح نافذة جديدة. من فضلك فعّل السماح بالنوافذ المنبثقة لهذا الموقع.'
-                    : 'We could not open a new window. Please allow popups for this site.',
-                )
-              }
             }}
             className="rounded-2xl bg-[linear-gradient(90deg,#d946ef,#a855f7)] px-10 py-4 text-xl font-bold text-white shadow-[0_12px_30px_rgba(217,70,239,0.5)] transition hover:shadow-[0_16px_36px_rgba(217,70,239,0.6)] sm:px-12 sm:py-5 sm:text-2xl"
           >
