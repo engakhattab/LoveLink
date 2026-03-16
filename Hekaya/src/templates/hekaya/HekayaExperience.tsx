@@ -71,6 +71,13 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
     if (!exists) setActiveChapterId(null)
   }, [activeChapterId, config.chapters])
 
+  // Auto-scroll للأعلى عند تغيير الفصل
+  useEffect(() => {
+    if (activeChapterId) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }, [activeChapterId])
+
   const copy =
     config.locale === 'ar'
       ? {
@@ -104,7 +111,7 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
 
   return (
     <main className="relative isolate min-h-screen overflow-hidden">
-      <StarField count={70} />
+      <StarField count={96} />
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-12">
         <motion.div

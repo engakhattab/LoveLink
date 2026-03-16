@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Chapter, ChapterProgress, HekayaLocale } from '../../../types/hekaya'
 import { GlassCard } from '../../shared/GlassCard'
 import { NeonButton } from '../../shared/NeonButton'
+import { PhotoCard } from '../shared/PhotoCard'
 import { ChapterXOGame } from './ChapterXOGame'
 import { QuestionMoment } from './QuestionMoment'
 
@@ -148,20 +149,7 @@ export function ChapterView({
       <GlassCard className="space-y-3">
         <div className="grid gap-3 sm:grid-cols-2">
           {chapter.photos.map((photo, index) => (
-            <figure
-              key={`${photo.src}-${index}`}
-              className="overflow-hidden rounded-2xl border border-[rgba(167,139,250,0.25)] bg-[rgba(20,10,35,0.4)]"
-            >
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                className="h-48 w-full object-cover"
-                loading="lazy"
-              />
-              <figcaption className="px-3 py-2 text-sm text-[var(--hekaya-text-secondary)]">
-                {photo.caption ?? photo.alt}
-              </figcaption>
-            </figure>
+            <PhotoCard key={`${photo.src}-${index}`} photo={photo} index={index} />
           ))}
         </div>
       </GlassCard>

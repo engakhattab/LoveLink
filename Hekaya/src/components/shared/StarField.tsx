@@ -21,22 +21,22 @@ function buildStarMap(total: number): StarPoint[] {
   return Array.from({ length: total }, (_, index) => {
     const x = (index * 37 + 17) % 100
     const y = (index * 29 + 11) % 100
-    const size = 1 + (index % 3) * 0.8
+    const size = 2 + (index % 4) * 1.2
     const delay = (index % 10) * 0.45
     const duration = 3.6 + (index % 6) * 0.7
-    const opacity = 0.32 + (index % 5) * 0.1
+    const opacity = 0.42 + (index % 5) * 0.12
     const color =
-      index % 4 === 0 ? 'var(--hekaya-star-bright)' : 'var(--hekaya-star-dim)'
+      index % 3 === 0 ? 'var(--hekaya-star-bright)' : 'var(--hekaya-star-dim)'
 
     return { x, y, size, delay, duration, opacity, color }
   })
 }
 
-const STAR_MAP = buildStarMap(96)
+const STAR_MAP = buildStarMap(128)
 
 export function StarField({
   className,
-  count = 72,
+  count = 96,
   animated = true,
 }: StarFieldProps) {
   const reducedMotion = useReducedMotion()
@@ -68,8 +68,8 @@ export function StarField({
             backgroundColor: star.color,
             boxShadow:
               star.color === 'var(--hekaya-star-bright)'
-                ? '0 0 10px rgba(254,243,199,0.75)'
-                : '0 0 10px rgba(167,139,250,0.65)',
+                ? '0 0 14px rgba(254,243,199,0.85)'
+                : '0 0 12px rgba(167,139,250,0.75)',
           }}
           animate={
             shouldAnimate

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { HekayaFireworks } from '../../../templates/hekaya/HekayaFireworks'
 import type { Chapter, ChapterProgress, HekayaLocale } from '../../../types/hekaya'
 import { GlassCard } from '../../shared/GlassCard'
 import { NeonButton } from '../../shared/NeonButton'
@@ -29,6 +30,8 @@ export function ChapterHub({
   onSelectChapter,
   onResetProgress,
 }: ChapterHubProps) {
+  const [showFireworks, setShowFireworks] = useState(false)
+
   const accessList: ChapterAccessItem[] = useMemo(() => {
     const getChapterProgress = (chapterId: string) =>
       progress.find((item) => item.chapterId === chapterId)
@@ -86,6 +89,12 @@ export function ChapterHub({
   const viewedCount = progress.filter((item) => item.viewed).length
   const completionPercent =
     chapters.length === 0 ? 0 : Math.round((viewedCount / chapters.length) * 100)
+  const viewedChapterSet = new Set(
+    progress.filter((item) => item.viewed).map((item) => item.chapterId),
+  )
+  const allChaptersCompleted =
+    chapters.length > 0 &&
+    chapters.every((chapter) => viewedChapterSet.has(chapter.id))
 
   const suggestedChapter =
     accessList.find((item) => item.accessible && !item.progress?.viewed) ??
@@ -106,6 +115,17 @@ export function ChapterHub({
         progressLabel: 'Viewing Progress',
         continueCta: 'Continue Journey',
         reset: 'Reset Progress',
+      }
+
+  const fireworksCopy =
+    locale === 'ar'
+      ? {
+        start: '🎆 ابدأ العرض النهائي',
+        hint: 'عرض خاص من الألعاب النارية',
+      }
+      : {
+        start: 'Start Final Fireworks',
+        hint: 'A special celebration is ready for you.',
       }
 
   return (
@@ -177,6 +197,36 @@ export function ChapterHub({
           />
         ))}
       </div>
+
+      {allChaptersCompleted && !showFireworks ? (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="text-center"
+        >
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.96 }}
+            onClick={() => setShowFireworks(true)}
+            className="rounded-2xl bg-[linear-gradient(90deg,#d946ef,#a855f7)] px-10 py-4 text-xl font-bold text-white shadow-[0_12px_30px_rgba(217,70,239,0.5)] transition hover:shadow-[0_16px_36px_rgba(217,70,239,0.6)] sm:px-12 sm:py-5 sm:text-2xl"
+          >
+            {fireworksCopy.start}
+          </motion.button>
+          <p className="mt-4 text-sm text-[var(--hekaya-text-secondary)]">
+            {fireworksCopy.hint}
+          </p>
+        </motion.div>
+      ) : null}
+
+      {showFireworks ? (
+        <HekayaFireworks
+          onComplete={() => {
+            setShowFireworks(false)
+          }}
+        />
+      ) : null}
     </motion.div>
   )
 }
