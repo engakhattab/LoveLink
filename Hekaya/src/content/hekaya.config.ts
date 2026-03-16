@@ -2,8 +2,8 @@ import { validateHekayaConfig, type HekayaConfig } from '../types/hekaya'
 
 export const hekayaConfig: HekayaConfig = {
   locale: 'ar',
-  receiverName: 'حبيبتي',
-  senderName: 'حبيبك',
+  receiverName: 'ليلى',
+  senderName: 'كريم',
 
   unlock: {
     type: 'ceremonial_heart',
@@ -15,7 +15,7 @@ export const hekayaConfig: HekayaConfig = {
     },
     longPressRequired: true,
     ceremonyMessage:
-      'الحكاية دي مخبية جوا قلبي ليكي... ضعي إيدك على القلب ده ووعديني تفتكري اليوم ده للأبد ❤',
+      'الحكاية دي مخبية اللي جوا قلبي ليكي... حطي إيدك على القلب ده واوعديني تفتكري اليوم ده للأبد ❤',
   },
 
   introLine: 'دي بداية الحكاية... ولسه أجمل الفصول جاية.',
@@ -137,7 +137,7 @@ export const hekayaConfig: HekayaConfig = {
       message:
         'أنا مش عارف المستقبل شكله إيه، بس عارف إني عايز أعيشه كله معاكي. كل لحظة، وكل يوم.',
       voiceNote: {
-        src: '/audio/chapter_4_voice.mp3',
+        src: '/audio/sealed_promise.mp3',
         label: 'اسمعي وعدي',
       },
       question: {

@@ -24,11 +24,11 @@ export function MemoryConstellation({
   const copy =
     locale === 'ar'
       ? {
-          complete: 'إنهاء الاستكشاف',
-        }
+        complete: 'كفاية كده؟',
+      }
       : {
-          complete: 'Finish Exploration',
-        }
+        complete: 'Finish Exploration',
+      }
 
   return (
     <GlassCard tone="elevated" className="space-y-4">

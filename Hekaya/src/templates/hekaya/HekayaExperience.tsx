@@ -74,27 +74,27 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
   const copy =
     config.locale === 'ar'
       ? {
-          title: `رحلة ${config.receiverName} و ${config.senderName}`,
-          start: 'ابدئي الحكاية',
-          locked: 'ما زال في قفل',
-          unlocked: 'تم فتح الرحلة',
-          unlockHint:
-            'المدخل الآن ببوابة القلب والتاريخ فقط... أما التحدي فهو جوه الفصل الثالث.',
-          entering: 'أهلا بيكي في الحكاية...',
-          done:
-            'تم تعديل النظام: الفصل الثالث بيطلب لعبة X-O داخل الفصل نفسه قبل عرض المحتوى.',
-        }
+        title: `رحلة ${config.receiverName} ❤️ ${config.senderName}`,
+        start: 'ابدئي الحكاية',
+        locked: 'لسه فيه كمان قفل😂',
+        unlocked: 'شطورة فتحتي حكايتنا',
+        unlockHint:
+          'المدخل الآن ببوابة القلب والتاريخ فقط... أما التحدي فهو جوه الفصل الثالث.',
+        entering: 'أهلا بيكي في الحكاية...',
+        done:
+          'تم تعديل النظام: الفصل الثالث بيطلب لعبة X-O داخل الفصل نفسه قبل عرض المحتوى.',
+      }
       : {
-          title: `${config.receiverName} & ${config.senderName}'s Story`,
-          start: 'Start Story',
-          locked: 'Still Locked',
-          unlocked: 'Experience Unlocked',
-          unlockHint:
-            'Entry now uses the heart/date ritual only. The X-O challenge lives inside Chapter 3.',
-          entering: 'Welcome into the story...',
-          done:
-            'Unlock system updated: Chapter 3 now requires an in-chapter X-O game before content.',
-        }
+        title: `${config.receiverName} & ${config.senderName}'s Story`,
+        start: 'Start Story',
+        locked: 'Still Locked',
+        unlocked: 'Experience Unlocked',
+        unlockHint:
+          'Entry now uses the heart/date ritual only. The X-O challenge lives inside Chapter 3.',
+        entering: 'Welcome into the story...',
+        done:
+          'Unlock system updated: Chapter 3 now requires an in-chapter X-O game before content.',
+      }
 
   const openStartChapter = () => {
     if (!isUnlocked) return
@@ -218,14 +218,14 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
                 onPrevious={
                   activeChapterIndex > 0
                     ? () =>
-                        setActiveChapterId(config.chapters[activeChapterIndex - 1]!.id)
+                      setActiveChapterId(config.chapters[activeChapterIndex - 1]!.id)
                     : undefined
                 }
                 onNext={
                   activeChapterIndex >= 0 &&
-                  activeChapterIndex < config.chapters.length - 1
+                    activeChapterIndex < config.chapters.length - 1
                     ? () =>
-                        setActiveChapterId(config.chapters[activeChapterIndex + 1]!.id)
+                      setActiveChapterId(config.chapters[activeChapterIndex + 1]!.id)
                     : undefined
                 }
               />

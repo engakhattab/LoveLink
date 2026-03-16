@@ -157,37 +157,37 @@ export function HeartDateGate({
   const copy =
     locale === 'ar'
       ? {
-          ceremonyTitle: 'الطقس الافتتاحي',
-          ceremonyHint: longPressRequired
-            ? 'اضغطي على القلب لمدة ثانيتين لفتح البوابة'
-            : 'اضغطي على القلب للانتقال لمرحلة التاريخ',
-          fallbackMessage:
-            'الحكاية دي مخبية جوا قلبي ليكي... ضعي إيدك على القلب ده وافتحي البوابة.',
-          dateTitle: 'تاريخنا الخاص',
-          subtitle: 'لفي القلب واختاري اليوم اللي الحكاية اتفتحت فيه لأول مرة.',
-          day: 'اليوم',
-          month: 'الشهر',
-          year: 'السنة',
-          submit: 'افتحي القفل',
-          wrongDate: 'لسه مش التاريخ الصح... جربي تاني ✨',
-          success: 'اتفتح! 💖',
-        }
+        ceremonyTitle: 'الطقس الافتتاحي',
+        ceremonyHint: longPressRequired
+          ? 'اضغطي على القلب لمدة ثانيتين لفتح البوابة'
+          : 'اضغطي على القلب عشان تروحي لمرحلة تاريخنا',
+        fallbackMessage:
+          'الحكاية دي مخبية جوا قلبي ليكي كتير... حطي إيدك على القلب ده.',
+        dateTitle: 'تاريخنا الخاص',
+        subtitle: 'لفي القلب واختاري اليوم اللي الحكاية اتفتحت فيه لأول مرة.',
+        day: 'اليوم',
+        month: 'الشهر',
+        year: 'السنة',
+        submit: 'افتحي القفل',
+        wrongDate: 'مش ده التاريخ الصح يا حبيبتي ركزي ✨',
+        success: 'اتفتح! 💖',
+      }
       : {
-          ceremonyTitle: 'Ceremony',
-          ceremonyHint: longPressRequired
-            ? 'Hold the heart for 2 seconds to begin'
-            : 'Tap the heart to continue to date entry',
-          fallbackMessage:
-            'This story is hidden in my heart for you... place your hand on the heart and open the gate.',
-          dateTitle: 'Our Special Date',
-          subtitle: 'Spin the heart dials and pick the date that unlocked us.',
-          day: 'Day',
-          month: 'Month',
-          year: 'Year',
-          submit: 'Unlock',
-          wrongDate: 'That date is not the one yet... try again ✨',
-          success: 'Unlocked! 💖',
-        }
+        ceremonyTitle: 'Ceremony',
+        ceremonyHint: longPressRequired
+          ? 'Hold the heart for 2 seconds to begin'
+          : 'Tap the heart to continue to date entry',
+        fallbackMessage:
+          'This story is hidden in my heart for you... place your hand on the heart and open the gate.',
+        dateTitle: 'Our Special Date',
+        subtitle: 'Spin the heart dials and pick the date that unlocked us.',
+        day: 'Day',
+        month: 'Month',
+        year: 'Year',
+        submit: 'Unlock',
+        wrongDate: 'That date is not the one yet... try again ✨',
+        success: 'Unlocked! 💖',
+      }
 
   const clearPressTimers = () => {
     if (pressIntervalRef.current !== null) {

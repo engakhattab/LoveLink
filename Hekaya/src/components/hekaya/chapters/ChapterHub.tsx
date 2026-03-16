@@ -60,7 +60,7 @@ export function ChapterHub({
           lockReason: accessible
             ? undefined
             : locale === 'ar'
-              ? 'أكملي الفصل الأول والثاني أولًا'
+              ? 'كملي الفصل الأول والثاني الأول'
               : 'Complete Chapters 1 and 2 first',
           showGameIcon: true,
         }
@@ -76,7 +76,7 @@ export function ChapterHub({
         lockReason: previousViewed
           ? undefined
           : locale === 'ar'
-            ? 'أكملي الفصل السابق أولًا'
+            ? 'كملي الفصل السابق الأول'
             : 'Complete the previous chapter first',
         showGameIcon: Boolean(chapter.xoGameLock?.enabled),
       }
@@ -94,19 +94,19 @@ export function ChapterHub({
   const copy =
     locale === 'ar'
       ? {
-          title: 'فصول الحكاية',
-          subtitle: 'الأبواب بتتفتح بالتدريج... كل فصل له وقته.',
-          progressLabel: 'تقدم المشاهدة',
-          continueCta: 'كملي من آخر محطة',
-          reset: 'إعادة التقدم',
-        }
+        title: 'فصول الحكاية',
+        subtitle: 'الأبواب بتتفتح بالتدريج... كل فصل له وقته.',
+        progressLabel: 'تقدم المشاهدة',
+        continueCta: 'كملي من آخر محطة',
+        reset: 'إعادة التقدم',
+      }
       : {
-          title: 'Story Chapters',
-          subtitle: 'Chapters unlock in sequence and each one has its own gate.',
-          progressLabel: 'Viewing Progress',
-          continueCta: 'Continue Journey',
-          reset: 'Reset Progress',
-        }
+        title: 'Story Chapters',
+        subtitle: 'Chapters unlock in sequence and each one has its own gate.',
+        progressLabel: 'Viewing Progress',
+        continueCta: 'Continue Journey',
+        reset: 'Reset Progress',
+      }
 
   return (
     <motion.div

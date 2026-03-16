@@ -211,23 +211,23 @@ export function ChapterXOGame({ config, onWin, locale }: ChapterXOGameProps) {
   const copy =
     locale === 'ar'
       ? {
-          start: 'ابدئي اللعبة',
-          turnYou: 'دورك',
-          turnAI: 'دور اللعبة',
-          won: 'فزتي! 🎉',
-          lost: 'المرة دي خسرنا... جربي تاني ✨',
-          draw: 'تعادل... جربي مرة تانية 🌙',
-          retry: 'إعادة اللعبة',
-        }
+        start: 'ابدئي اللعبة',
+        turnYou: 'دورك',
+        turnAI: 'دور اللعبة',
+        won: 'فزتي! 🎉',
+        lost: 'المرة دي خسرنا... جربي تاني ✨',
+        draw: 'تعادل... جربي مرة تانية 🌙',
+        retry: 'نعيد اللعبة تاني',
+      }
       : {
-          start: 'Start Game',
-          turnYou: 'Your Turn',
-          turnAI: 'Game Turn',
-          won: 'You won! 🎉',
-          lost: 'Not this round... try again ✨',
-          draw: 'Draw... try again 🌙',
-          retry: 'Replay',
-        }
+        start: 'Start Game',
+        turnYou: 'Your Turn',
+        turnAI: 'Game Turn',
+        won: 'You won! 🎉',
+        lost: 'Not this round... try again ✨',
+        draw: 'Draw... try again 🌙',
+        retry: 'Replay',
+      }
 
   const resetGame = () => {
     if (aiTimeoutRef.current !== null) window.clearTimeout(aiTimeoutRef.current)
@@ -289,40 +289,40 @@ export function ChapterXOGame({ config, onWin, locale }: ChapterXOGameProps) {
     setBoard((currentBoard) => {
       if (currentBoard[index] !== null) return currentBoard
 
-        const next = [...currentBoard]
-        next[index] = 'player'
-        const playerMoves = next.filter((cell) => cell === 'player').length
-        const playerLine = findWinningLine(next, 'player')
+      const next = [...currentBoard]
+      next[index] = 'player'
+      const playerMoves = next.filter((cell) => cell === 'player').length
+      const playerLine = findWinningLine(next, 'player')
 
-        if (playerLine) {
-          setWinningLine(playerLine)
-          setStage('won')
+      if (playerLine) {
+        setWinningLine(playerLine)
+        setStage('won')
         setIsPlayerTurn(false)
         setResultMessage(copy.won)
         setShowTransition(true)
         completeTimeoutRef.current = window.setTimeout(() => {
           onWin()
         }, config.transitionDuration || 3500)
-          return next
-        }
+        return next
+      }
 
-        if (config.autoWinMode && playerMoves >= maxMoves) {
-          const forcedWin = forcePlayerWinBoard(next)
-          if (forcedWin.line) setWinningLine(forcedWin.line)
-          setStage('won')
-          setIsPlayerTurn(false)
-          setResultMessage(copy.won)
-          setShowTransition(true)
-          completeTimeoutRef.current = window.setTimeout(() => {
-            onWin()
-          }, config.transitionDuration || 3500)
-          return forcedWin.board
-        }
+      if (config.autoWinMode && playerMoves >= maxMoves) {
+        const forcedWin = forcePlayerWinBoard(next)
+        if (forcedWin.line) setWinningLine(forcedWin.line)
+        setStage('won')
+        setIsPlayerTurn(false)
+        setResultMessage(copy.won)
+        setShowTransition(true)
+        completeTimeoutRef.current = window.setTimeout(() => {
+          onWin()
+        }, config.transitionDuration || 3500)
+        return forcedWin.board
+      }
 
-        if (!next.includes(null)) {
-          setStage('lost')
-          setIsPlayerTurn(false)
-          setResultMessage(copy.draw)
+      if (!next.includes(null)) {
+        setStage('lost')
+        setIsPlayerTurn(false)
+        setResultMessage(copy.draw)
         return next
       }
 
