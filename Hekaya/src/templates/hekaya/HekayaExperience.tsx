@@ -74,15 +74,15 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
   const copy =
     config.locale === 'ar'
       ? {
-          title: `ط±ط­ظ„ط© ${config.receiverName} ظˆ ${config.senderName}`,
-          start: 'ط§ط¨ط¯ط¦ظٹ ط§ظ„ط­ظƒط§ظٹط©',
-          locked: 'ظ…ط§ ط²ط§ظ„ ظپظٹ ظ‚ظپظ„',
-          unlocked: 'طھظ… ظپطھط­ ط§ظ„ط±ط­ظ„ط©',
+          title: `رحلة ${config.receiverName} و ${config.senderName}`,
+          start: 'ابدئي الحكاية',
+          locked: 'ما زال في قفل',
+          unlocked: 'تم فتح الرحلة',
           unlockHint:
-            'ط§ظ„ظ…ط¯ط®ظ„ ط§ظ„ط¢ظ† ط¨ط¨ظˆط§ط¨ط© ط§ظ„ظ‚ظ„ط¨ ظˆط§ظ„طھط§ط±ظٹط® ظپظ‚ط·... ط£ظ…ط§ ط§ظ„طھط­ط¯ظٹ ظپظ‡ظˆ ط¬ظˆظ‡ ط§ظ„ظپطµظ„ ط§ظ„ط«ط§ظ„ط«.',
-          entering: 'ط£ظ‡ظ„ط§ ط¨ظٹظƒظٹ ظپظٹ ط§ظ„ط­ظƒط§ظٹط©...',
+            'المدخل الآن ببوابة القلب والتاريخ فقط... أما التحدي فهو جوه الفصل الثالث.',
+          entering: 'أهلا بيكي في الحكاية...',
           done:
-            'طھظ… طھط¹ط¯ظٹظ„ ط§ظ„ظ†ط¸ط§ظ…: ط§ظ„ظپطµظ„ ط§ظ„ط«ط§ظ„ط« ط¨ظٹط·ظ„ط¨ ظ„ط¹ط¨ط© X-O ط¯ط§ط®ظ„ ط§ظ„ظپطµظ„ ظ†ظپط³ظ‡ ظ‚ط¨ظ„ ط¹ط±ط¶ ط§ظ„ظ…ط­طھظˆظ‰.',
+            'تم تعديل النظام: الفصل الثالث بيطلب لعبة X-O داخل الفصل نفسه قبل عرض المحتوى.',
         }
       : {
           title: `${config.receiverName} & ${config.senderName}'s Story`,
@@ -114,7 +114,7 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
         >
           <GlassCard tone="elevated" className="space-y-4">
             <p className="hekaya-font-accent text-sm tracking-[0.2em] text-[var(--hekaya-text-muted)] uppercase">
-              Hekaya | ط­ظƒط§ظٹظ‡
+              Hekaya | حكاية
             </p>
             <h1 className="hekaya-font-display text-3xl leading-tight text-[var(--hekaya-text-primary)] sm:text-5xl">
               {copy.title}
@@ -194,13 +194,14 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
               <p className="text-sm text-[var(--hekaya-success)]">{copy.done}</p>
               <p className="text-xs text-[var(--hekaya-text-muted)]">
                 {config.locale === 'ar'
-                  ? `ط§ظ„ط£ط³ط¦ظ„ط© ط§ظ„ظ…طھط£ظ…ظ„ط©: ${reflectedQuestionIds.length}`
+                  ? `الأسئلة المتأملة: ${reflectedQuestionIds.length}`
                   : `Reflected questions: ${reflectedQuestionIds.length}`}
               </p>
             </GlassCard>
 
             {activeChapter ? (
               <ChapterView
+                key={activeChapter.id}
                 chapter={activeChapter}
                 chapterProgress={getChapterProgress(activeChapter.id)}
                 locale={config.locale}

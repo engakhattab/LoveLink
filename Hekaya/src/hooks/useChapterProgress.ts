@@ -225,7 +225,8 @@ export function useChapterProgress(chapters: Chapter[]) {
     chapters.length === 0
       ? 0
       : Math.round((viewedChapterIds.length / chapters.length) * 100)
-  const continueChapterId = chapterIds.find((id) => !viewedSet.has(id)) ?? chapterIds[0]
+  const continueChapterId =
+    chapterIds.find((id) => !viewedSet.has(id)) ?? chapterIds[0] ?? null
 
   const isChapterViewed = (chapterId: string) =>
     Boolean(getChapterProgress(chapterId)?.viewed)

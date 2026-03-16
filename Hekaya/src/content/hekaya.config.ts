@@ -1,4 +1,4 @@
-import type { HekayaConfig } from '../types/hekaya'
+import { validateHekayaConfig, type HekayaConfig } from '../types/hekaya'
 
 export const hekayaConfig: HekayaConfig = {
   locale: 'ar',
@@ -256,4 +256,16 @@ export const hekayaConfig: HekayaConfig = {
     'إيه الوعد اللي محتاجة تسمعيه مني كل يوم؟',
     'إيه الحلم اللي عايزة نحققه سوا؟',
   ],
+}
+
+if (import.meta.env.DEV) {
+  const validation = validateHekayaConfig(hekayaConfig)
+
+  if (!validation.isValid) {
+    console.error('Config validation failed:', validation.errors)
+  }
+
+  if (validation.warnings.length > 0) {
+    console.warn('Config warnings:', validation.warnings)
+  }
 }

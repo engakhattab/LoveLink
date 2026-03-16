@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Chapter, ChapterProgress, HekayaLocale } from '../../../types/hekaya'
 import { GlassCard } from '../../shared/GlassCard'
 import { NeonButton } from '../../shared/NeonButton'
@@ -50,6 +50,38 @@ export function ChapterView({
     setChapterStage('unlocked')
   }, [chapter.id, chapter.xoGameLock?.enabled, chapterProgress?.xoGameCompleted])
 
+  const copy = useMemo(
+    () =>
+      locale === 'ar'
+        ? {
+            chapterLabel: 'الفصل',
+            mainMessage: 'رسالة الفصل',
+            markViewed: isCompleted ? 'تمت المشاهدة ✓' : 'تأكيد مشاهدة الفصل',
+            back: 'الرجوع للفهرس',
+            previous: 'الفصل السابق',
+            next: 'الفصل التالي',
+            voice: 'رسالة صوتية',
+            questionGate:
+              'لازم تتأملي في السؤال الأول قبل ما نكمل أو نعتبر الفصل مكتمل.',
+          }
+        : {
+            chapterLabel: 'Chapter',
+            mainMessage: 'Main Message',
+            markViewed: isCompleted ? 'Viewed ✓' : 'Mark Chapter as Viewed',
+            back: 'Back to Hub',
+            previous: 'Previous',
+            next: 'Next',
+            voice: 'Voice Note',
+            questionGate:
+              'Please reflect on the question first before continuing the chapter flow.',
+          },
+    [isCompleted, locale],
+  )
+
+  const question = chapter.question
+  const hasQuestion = Boolean(question)
+  const questionPending = hasQuestion && !isQuestionAcknowledged
+
   if (chapterStage === 'locked' && chapter.xoGameLock?.enabled) {
     return (
       <ChapterXOGame
@@ -62,35 +94,6 @@ export function ChapterView({
       />
     )
   }
-
-  const copy =
-    locale === 'ar'
-      ? {
-          chapterLabel: 'الفصل',
-          mainMessage: 'رسالة الفصل',
-          markViewed: isCompleted ? 'تمت المشاهدة ✓' : 'تأكيد مشاهدة الفصل',
-          back: 'الرجوع للفهرس',
-          previous: 'الفصل السابق',
-          next: 'الفصل التالي',
-          voice: 'رسالة صوتية',
-          questionGate:
-            'لازم تأملي في السؤال الأول قبل ما نكمل أو نعتبر الفصل مكتمل.',
-        }
-      : {
-          chapterLabel: 'Chapter',
-          mainMessage: 'Main Message',
-          markViewed: isCompleted ? 'Viewed ✓' : 'Mark Chapter as Viewed',
-          back: 'Back to Hub',
-          previous: 'Previous',
-          next: 'Next',
-          voice: 'Voice Note',
-          questionGate:
-            'Please reflect on the question first before continuing the chapter flow.',
-        }
-
-  const question = chapter.question
-  const hasQuestion = Boolean(question)
-  const questionPending = hasQuestion && !isQuestionAcknowledged
 
   const renderQuestionAt = (position: 'start' | 'middle' | 'end') => {
     if (!question) return null

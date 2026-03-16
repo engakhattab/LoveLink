@@ -17,6 +17,8 @@ interface HeartDateGateProps {
 interface DateDialProps {
   label: string
   value: number
+  min: number
+  max: number
   width: 'short' | 'long'
   locale: HekayaLocale
   onIncrease: () => void
@@ -53,6 +55,8 @@ function formatDigits(value: number, minDigits: number, locale: HekayaLocale) {
 function DateDial({
   label,
   value,
+  min,
+  max,
   width,
   locale,
   onIncrease,
@@ -61,6 +65,12 @@ function DateDial({
 }: DateDialProps) {
   return (
     <div
+      role="spinbutton"
+      aria-label={label}
+      aria-valuenow={value}
+      aria-valuemin={min}
+      aria-valuemax={max}
+      aria-valuetext={formatDigits(value, width === 'long' ? 4 : 2, locale)}
       className={clsx(
         'flex flex-col items-center gap-2 rounded-[1.8rem] border px-2 py-2',
         'border-[rgba(217,70,239,0.5)] bg-[rgba(35,20,60,0.75)]',
@@ -336,6 +346,8 @@ export function HeartDateGate({
                 <DateDial
                   label={copy.year}
                   value={year}
+                  min={years[0]!}
+                  max={years[years.length - 1]!}
                   width="long"
                   locale={locale}
                   disabled={isChecking || stage === 'unlocking'}
@@ -345,6 +357,8 @@ export function HeartDateGate({
                 <DateDial
                   label={copy.month}
                   value={month}
+                  min={1}
+                  max={12}
                   width="short"
                   locale={locale}
                   disabled={isChecking || stage === 'unlocking'}
@@ -358,6 +372,8 @@ export function HeartDateGate({
                 <DateDial
                   label={copy.day}
                   value={day}
+                  min={1}
+                  max={dayValues.length}
                   width="short"
                   locale={locale}
                   disabled={isChecking || stage === 'unlocking'}

@@ -377,6 +377,7 @@ export function ChapterXOGame({ config, onWin, locale }: ChapterXOGameProps) {
                   type="button"
                   onClick={() => handlePlayerMove(index)}
                   disabled={cell !== null || stage !== 'playing' || !isPlayerTurn}
+                  aria-label={`Cell ${index + 1}`}
                   className={clsx(
                     'relative aspect-square min-h-[82px] rounded-2xl border bg-[rgba(14,6,26,0.72)] text-3xl transition sm:min-h-[96px]',
                     'disabled:cursor-not-allowed',

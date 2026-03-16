@@ -79,6 +79,17 @@ body[data-locale='ar'] {
   font-family: var(--hekaya-font-body);
 }
 
+body[data-locale='ar'],
+body[data-locale='ar'] * {
+  font-feature-settings: 'calt' 1, 'liga' 1, 'kern' 1;
+}
+
+[lang='ar'] {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 a {
   color: inherit;
 }
@@ -89,14 +100,17 @@ a {
 
 .hekaya-font-display {
   font-family: var(--hekaya-font-display);
+  font-feature-settings: 'calt' 1, 'liga' 1, 'kern' 1;
 }
 
 .hekaya-font-body {
   font-family: var(--hekaya-font-body);
+  font-feature-settings: 'calt' 1, 'liga' 1, 'kern' 1;
 }
 
 .hekaya-font-accent {
   font-family: var(--hekaya-font-accent);
+  font-feature-settings: 'calt' 1, 'liga' 1, 'kern' 1;
 }
 
 .hekaya-glass {

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useMemo } from 'react'
 import type { Chapter, ChapterProgress, HekayaLocale } from '../../../types/hekaya'
 import { GlassCard } from '../../shared/GlassCard'
 import { NeonButton } from '../../shared/NeonButton'
@@ -28,57 +29,59 @@ export function ChapterHub({
   onSelectChapter,
   onResetProgress,
 }: ChapterHubProps) {
-  const getChapterProgress = (chapterId: string) =>
-    progress.find((item) => item.chapterId === chapterId)
-  const isViewed = (chapterId: string) =>
-    Boolean(getChapterProgress(chapterId)?.viewed)
+  const accessList: ChapterAccessItem[] = useMemo(() => {
+    const getChapterProgress = (chapterId: string) =>
+      progress.find((item) => item.chapterId === chapterId)
+    const isViewed = (chapterId: string) =>
+      Boolean(getChapterProgress(chapterId)?.viewed)
 
-  const accessList: ChapterAccessItem[] = chapters.map((chapter, index) => {
-    const chapterProgress = getChapterProgress(chapter.id)
+    return chapters.map((chapter, index) => {
+      const chapterProgress = getChapterProgress(chapter.id)
 
-    if (index < 2) {
-      return {
-        chapter,
-        progress: chapterProgress,
-        accessible: true,
-        locked: false,
-        showGameIcon: Boolean(chapter.xoGameLock?.enabled),
+      if (index < 2) {
+        return {
+          chapter,
+          progress: chapterProgress,
+          accessible: true,
+          locked: false,
+          showGameIcon: Boolean(chapter.xoGameLock?.enabled),
+        }
       }
-    }
 
-    if (chapter.id === 'chapter_3') {
-      const chapter1Viewed = isViewed('chapter_1')
-      const chapter2Viewed = isViewed('chapter_2')
-      const accessible = chapter1Viewed && chapter2Viewed
+      if (chapter.id === 'chapter_3') {
+        const chapter1Viewed = isViewed('chapter_1')
+        const chapter2Viewed = isViewed('chapter_2')
+        const accessible = chapter1Viewed && chapter2Viewed
+        return {
+          chapter,
+          progress: chapterProgress,
+          accessible,
+          locked: !accessible,
+          lockReason: accessible
+            ? undefined
+            : locale === 'ar'
+              ? 'أكملي الفصل الأول والثاني أولًا'
+              : 'Complete Chapters 1 and 2 first',
+          showGameIcon: true,
+        }
+      }
+
+      const previousChapter = chapters[index - 1]
+      const previousViewed = previousChapter ? isViewed(previousChapter.id) : true
       return {
         chapter,
         progress: chapterProgress,
-        accessible,
-        locked: !accessible,
-        lockReason: accessible
+        accessible: previousViewed,
+        locked: !previousViewed,
+        lockReason: previousViewed
           ? undefined
           : locale === 'ar'
-            ? 'ط£ظƒظ…ظ„ظٹ ط§ظ„ظپطµظ„ ط§ظ„ط£ظˆظ„ ظˆط§ظ„ط«ط§ظ†ظٹ ط§ظ„ط£ظˆظ„'
-            : 'Complete Chapters 1 and 2 first',
-        showGameIcon: true,
+            ? 'أكملي الفصل السابق أولًا'
+            : 'Complete the previous chapter first',
+        showGameIcon: Boolean(chapter.xoGameLock?.enabled),
       }
-    }
-
-    const previousChapter = chapters[index - 1]
-    const previousViewed = previousChapter ? isViewed(previousChapter.id) : true
-    return {
-      chapter,
-      progress: chapterProgress,
-      accessible: previousViewed,
-      locked: !previousViewed,
-      lockReason: previousViewed
-        ? undefined
-        : locale === 'ar'
-          ? 'ط£ظƒظ…ظ„ظٹ ط§ظ„ظپطµظ„ ط§ظ„ط³ط§ط¨ظ‚ ط£ظˆظ„ط§ظ‹'
-          : 'Complete the previous chapter first',
-      showGameIcon: Boolean(chapter.xoGameLock?.enabled),
-    }
-  })
+    })
+  }, [chapters, progress, locale])
 
   const viewedCount = progress.filter((item) => item.viewed).length
   const completionPercent =
@@ -91,11 +94,11 @@ export function ChapterHub({
   const copy =
     locale === 'ar'
       ? {
-          title: 'ظپطµظˆظ„ ط§ظ„ط­ظƒط§ظٹط©',
-          subtitle: 'ط§ظ„ط£ط¨ظˆط§ط¨ ط¨طھطھظپطھط­ ط¨ط§ظ„طھط¯ط±ظٹط¬... ظƒظ„ ظپطµظ„ ظ„ظ‡ ظˆظ‚طھظ‡.',
-          progressLabel: 'طھظ‚ط¯ظ… ط§ظ„ظ…ط´ط§ظ‡ط¯ط©',
-          continueCta: 'ظƒظ…ظ„ظٹ ظ…ظ† ط¢ط®ط± ظ…ط­ط·ط©',
-          reset: 'ط¥ط¹ط§ط¯ط© ط§ظ„طھظ‚ط¯ظ…',
+          title: 'فصول الحكاية',
+          subtitle: 'الأبواب بتتفتح بالتدريج... كل فصل له وقته.',
+          progressLabel: 'تقدم المشاهدة',
+          continueCta: 'كملي من آخر محطة',
+          reset: 'إعادة التقدم',
         }
       : {
           title: 'Story Chapters',
