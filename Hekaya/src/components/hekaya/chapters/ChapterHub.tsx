@@ -1,0 +1,179 @@
+import { motion } from 'framer-motion'
+import type { Chapter, ChapterProgress, HekayaLocale } from '../../../types/hekaya'
+import { GlassCard } from '../../shared/GlassCard'
+import { NeonButton } from '../../shared/NeonButton'
+import { ChapterCard } from './ChapterCard'
+
+interface ChapterHubProps {
+  chapters: Chapter[]
+  progress: ChapterProgress[]
+  locale: HekayaLocale
+  onSelectChapter: (id: string) => void
+  onResetProgress?: () => void
+}
+
+interface ChapterAccessItem {
+  chapter: Chapter
+  progress?: ChapterProgress
+  accessible: boolean
+  locked: boolean
+  lockReason?: string
+  showGameIcon: boolean
+}
+
+export function ChapterHub({
+  chapters,
+  progress,
+  locale,
+  onSelectChapter,
+  onResetProgress,
+}: ChapterHubProps) {
+  const getChapterProgress = (chapterId: string) =>
+    progress.find((item) => item.chapterId === chapterId)
+  const isViewed = (chapterId: string) =>
+    Boolean(getChapterProgress(chapterId)?.viewed)
+
+  const accessList: ChapterAccessItem[] = chapters.map((chapter, index) => {
+    const chapterProgress = getChapterProgress(chapter.id)
+
+    if (index < 2) {
+      return {
+        chapter,
+        progress: chapterProgress,
+        accessible: true,
+        locked: false,
+        showGameIcon: Boolean(chapter.xoGameLock?.enabled),
+      }
+    }
+
+    if (chapter.id === 'chapter_3') {
+      const chapter1Viewed = isViewed('chapter_1')
+      const chapter2Viewed = isViewed('chapter_2')
+      const accessible = chapter1Viewed && chapter2Viewed
+      return {
+        chapter,
+        progress: chapterProgress,
+        accessible,
+        locked: !accessible,
+        lockReason: accessible
+          ? undefined
+          : locale === 'ar'
+            ? 'ط£ظƒظ…ظ„ظٹ ط§ظ„ظپطµظ„ ط§ظ„ط£ظˆظ„ ظˆط§ظ„ط«ط§ظ†ظٹ ط§ظ„ط£ظˆظ„'
+            : 'Complete Chapters 1 and 2 first',
+        showGameIcon: true,
+      }
+    }
+
+    const previousChapter = chapters[index - 1]
+    const previousViewed = previousChapter ? isViewed(previousChapter.id) : true
+    return {
+      chapter,
+      progress: chapterProgress,
+      accessible: previousViewed,
+      locked: !previousViewed,
+      lockReason: previousViewed
+        ? undefined
+        : locale === 'ar'
+          ? 'ط£ظƒظ…ظ„ظٹ ط§ظ„ظپطµظ„ ط§ظ„ط³ط§ط¨ظ‚ ط£ظˆظ„ط§ظ‹'
+          : 'Complete the previous chapter first',
+      showGameIcon: Boolean(chapter.xoGameLock?.enabled),
+    }
+  })
+
+  const viewedCount = progress.filter((item) => item.viewed).length
+  const completionPercent =
+    chapters.length === 0 ? 0 : Math.round((viewedCount / chapters.length) * 100)
+
+  const suggestedChapter =
+    accessList.find((item) => item.accessible && !item.progress?.viewed) ??
+    accessList.find((item) => item.accessible)
+
+  const copy =
+    locale === 'ar'
+      ? {
+          title: 'ظپطµظˆظ„ ط§ظ„ط­ظƒط§ظٹط©',
+          subtitle: 'ط§ظ„ط£ط¨ظˆط§ط¨ ط¨طھطھظپطھط­ ط¨ط§ظ„طھط¯ط±ظٹط¬... ظƒظ„ ظپطµظ„ ظ„ظ‡ ظˆظ‚طھظ‡.',
+          progressLabel: 'طھظ‚ط¯ظ… ط§ظ„ظ…ط´ط§ظ‡ط¯ط©',
+          continueCta: 'ظƒظ…ظ„ظٹ ظ…ظ† ط¢ط®ط± ظ…ط­ط·ط©',
+          reset: 'ط¥ط¹ط§ط¯ط© ط§ظ„طھظ‚ط¯ظ…',
+        }
+      : {
+          title: 'Story Chapters',
+          subtitle: 'Chapters unlock in sequence and each one has its own gate.',
+          progressLabel: 'Viewing Progress',
+          continueCta: 'Continue Journey',
+          reset: 'Reset Progress',
+        }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      className="space-y-4"
+    >
+      <GlassCard tone="elevated" className="space-y-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="hekaya-font-display text-2xl text-[var(--hekaya-text-primary)]">
+              {copy.title}
+            </h2>
+            <p className="mt-1 text-sm text-[var(--hekaya-text-secondary)]">
+              {copy.subtitle}
+            </p>
+          </div>
+          <div className="min-w-[10rem]">
+            <p className="mb-1 text-xs tracking-[0.12em] text-[var(--hekaya-text-muted)] uppercase">
+              {copy.progressLabel}
+            </p>
+            <div className="h-2 overflow-hidden rounded-full bg-[rgba(22,10,38,0.7)]">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${completionPercent}%` }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="h-full bg-[linear-gradient(90deg,var(--hekaya-neon-primary),var(--hekaya-gold))]"
+              />
+            </div>
+            <p className="mt-1 text-xs text-[var(--hekaya-text-muted)]">{completionPercent}%</p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <NeonButton
+            wide={false}
+            disabled={!suggestedChapter}
+            onClick={() => {
+              if (suggestedChapter?.accessible) onSelectChapter(suggestedChapter.chapter.id)
+            }}
+          >
+            {copy.continueCta}
+          </NeonButton>
+          {onResetProgress ? (
+            <NeonButton variant="gold" wide={false} onClick={onResetProgress}>
+              {copy.reset}
+            </NeonButton>
+          ) : null}
+        </div>
+      </GlassCard>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        {accessList.map((item, index) => (
+          <ChapterCard
+            key={item.chapter.id}
+            chapter={item.chapter}
+            index={index}
+            progress={item.progress}
+            locale={locale}
+            locked={item.locked}
+            lockReason={item.lockReason}
+            showGameIcon={item.showGameIcon}
+            isRecommended={suggestedChapter?.chapter.id === item.chapter.id}
+            onClick={() => {
+              if (item.accessible) onSelectChapter(item.chapter.id)
+            }}
+          />
+        ))}
+      </div>
+    </motion.div>
+  )
+}

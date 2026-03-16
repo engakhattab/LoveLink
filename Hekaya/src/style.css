@@ -1,0 +1,179 @@
+@import 'tailwindcss';
+
+:root {
+  /* Deep Cosmic Background */
+  --hekaya-bg-deep: #0a0118;
+  --hekaya-bg-card: #1a0f2e;
+  --hekaya-bg-elevated: #261644;
+
+  /* Neon Accents */
+  --hekaya-neon-primary: #d946ef;
+  --hekaya-neon-glow: #c026d3;
+  --hekaya-neon-soft: #e879f9;
+
+  /* Gold Premium Touches */
+  --hekaya-gold: #fbbf24;
+  --hekaya-gold-glow: #f59e0b;
+
+  /* Constellation / Stars */
+  --hekaya-star-bright: #fef3c7;
+  --hekaya-star-dim: #a78bfa;
+
+  /* Text */
+  --hekaya-text-primary: #faf5ff;
+  --hekaya-text-secondary: #e9d5ff;
+  --hekaya-text-muted: #c4b5fd;
+
+  /* Semantic */
+  --hekaya-success: #34d399;
+  --hekaya-error: #f87171;
+
+  /* Arabic-first typography */
+  --hekaya-font-display: 'Tajawal', sans-serif;
+  --hekaya-font-body: 'Cairo', sans-serif;
+  --hekaya-font-accent: 'Amiri', serif;
+
+  --hekaya-text-xs: 0.75rem;
+  --hekaya-text-sm: 0.875rem;
+  --hekaya-text-base: 1rem;
+  --hekaya-text-lg: 1.125rem;
+  --hekaya-text-xl: 1.25rem;
+  --hekaya-text-2xl: 1.5rem;
+  --hekaya-text-3xl: 1.875rem;
+  --hekaya-text-4xl: 2.25rem;
+  --hekaya-text-5xl: 3rem;
+
+  --hekaya-ease-entrance: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --hekaya-ease-exit: cubic-bezier(0.4, 0, 0.2, 1);
+  --hekaya-ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+  --hekaya-ease-celebration: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--hekaya-text-primary);
+  font-family: var(--hekaya-font-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(60% 50% at 15% 0%, rgba(217, 70, 239, 0.24), transparent 72%),
+    radial-gradient(56% 44% at 88% 8%, rgba(251, 191, 36, 0.17), transparent 68%),
+    radial-gradient(50% 45% at 50% 35%, rgba(99, 52, 200, 0.2), transparent 70%),
+    linear-gradient(180deg, #150329 0%, #0d0221 48%, var(--hekaya-bg-deep) 100%);
+}
+
+body[data-locale='ar'] {
+  font-family: var(--hekaya-font-body);
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(217, 70, 239, 0.35);
+}
+
+.hekaya-font-display {
+  font-family: var(--hekaya-font-display);
+}
+
+.hekaya-font-body {
+  font-family: var(--hekaya-font-body);
+}
+
+.hekaya-font-accent {
+  font-family: var(--hekaya-font-accent);
+}
+
+.hekaya-glass {
+  background: rgba(26, 15, 46, 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(217, 70, 239, 0.2);
+  box-shadow:
+    0 0 30px rgba(217, 70, 239, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.hekaya-glass-elevated {
+  background: rgba(38, 22, 68, 0.7);
+  backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(217, 70, 239, 0.3);
+  box-shadow:
+    0 4px 40px rgba(217, 70, 239, 0.25),
+    0 0 60px rgba(192, 38, 211, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.hekaya-neon-text {
+  color: var(--hekaya-neon-primary);
+  text-shadow:
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor;
+}
+
+.hekaya-neon-glow {
+  box-shadow:
+    0 0 20px rgba(217, 70, 239, 0.5),
+    0 0 40px rgba(192, 38, 211, 0.3),
+    inset 0 0 10px rgba(217, 70, 239, 0.2);
+}
+
+.hekaya-gold-glow {
+  box-shadow:
+    0 0 20px rgba(251, 191, 36, 0.32),
+    0 0 45px rgba(245, 158, 11, 0.25),
+    inset 0 0 12px rgba(251, 191, 36, 0.17);
+}
+
+.hekaya-starfield-vignette {
+  background:
+    radial-gradient(circle at 20% -10%, rgba(216, 70, 239, 0.24), transparent 45%),
+    radial-gradient(circle at 85% 0%, rgba(251, 191, 36, 0.13), transparent 42%),
+    radial-gradient(circle at 50% 100%, rgba(107, 70, 193, 0.2), transparent 55%);
+}
+
+.hekaya-divider {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(217, 70, 239, 0),
+    rgba(217, 70, 239, 0.52) 38%,
+    rgba(251, 191, 36, 0.58) 62%,
+    rgba(251, 191, 36, 0)
+  );
+}
+
+.hekaya-divider::after {
+  content: '\2726';
+  position: absolute;
+  top: -0.84rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--hekaya-star-bright);
+  font-size: 0.8rem;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
+}
+
+.input-ring:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(217, 70, 239, 0.25),
+    0 0 24px rgba(217, 70, 239, 0.4);
+}
