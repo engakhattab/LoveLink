@@ -4,7 +4,6 @@ export type HekayaStage =
   | 'locked_heart'
   | 'entering'
   | 'unlocked'
-  | 'finale'
   | 'final_reveal'
   | 'complete'
 
@@ -85,15 +84,6 @@ export interface ConstellationMemory {
   size: 'small' | 'medium' | 'large'
 }
 
-export interface FireworksConfig {
-  enabled: boolean
-  title: string
-  floatingMessages: string[]
-  celebrationPhotos: string[]
-  duration: number
-  autoTrigger: boolean
-}
-
 export interface SealedEnvelopeConfig {
   enabled: boolean
   unlockDate?: string
@@ -125,7 +115,6 @@ export interface HekayaProgress {
   questionsAnswered: number[]
   constellationExplored: boolean
   sealedOpened: boolean
-  fireworksTriggered: boolean
   finalRevealed: boolean
   completedAt?: Date
 }
@@ -138,7 +127,7 @@ export interface HekayaConfig {
   introLine?: string
   chapters: Chapter[]
   constellation: ConstellationConfig
-  fireworks: FireworksConfig
+  finalCelebrationUrl: string
   sealedEnvelope: SealedEnvelopeConfig
   finalReveal: FinalRevealConfig
   theme?: {
@@ -214,15 +203,6 @@ export function validateHekayaConfig(config: HekayaConfig): HekayaValidation {
       config.constellation.memories.length === 0
     ) {
       errors.push('Constellation enabled but no memories provided')
-    }
-  }
-
-  if (config.fireworks.enabled) {
-    if (
-      !config.fireworks.floatingMessages ||
-      config.fireworks.floatingMessages.length < 5
-    ) {
-      warnings.push('Fireworks: at least 10 floating messages recommended')
     }
   }
 

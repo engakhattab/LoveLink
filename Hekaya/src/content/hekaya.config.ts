@@ -192,28 +192,7 @@ export const hekayaConfig: HekayaConfig = {
     ],
   },
 
-  fireworks: {
-    enabled: true,
-    title: 'احتفالنا 🎆',
-    floatingMessages: [
-      'بحبك أكتر من أي كلمة أقدر أوصف بيها',
-      'وجودك في حياتي أجمل هدية',
-      'كل لحظة معاكي تستاهل الاحتفال',
-      'الحكاية دي أجمل قرار',
-      'للأبد وأكتر ❤',
-      'وعد: أفضل جنبك مهما حصل',
-      'أنتي البيت والسكينة',
-      'شكرا إنك اخترتيني',
-      'أحلى الفصول لسه جاية',
-      'معاكي كل يوم عيد',
-    ],
-    celebrationPhotos: [
-      '/images/hekaya/fireworks/celebration_1.jpg',
-      '/images/hekaya/fireworks/celebration_2.jpg',
-    ],
-    duration: 45000,
-    autoTrigger: false,
-  },
+  finalCelebrationUrl: 'https://stillwithyou.vercel.app/',
 
   sealedEnvelope: {
     enabled: true,

@@ -241,6 +241,7 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
                 chapters={config.chapters}
                 progress={progress}
                 locale={config.locale}
+                finalCelebrationUrl={config.finalCelebrationUrl}
                 onSelectChapter={setActiveChapterId}
                 onResetProgress={resetProgress}
               />

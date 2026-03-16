@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
-import { useMemo, useState } from 'react'
-import { HekayaFireworks } from '../../../templates/hekaya/HekayaFireworks'
+import { useMemo } from 'react'
 import type { Chapter, ChapterProgress, HekayaLocale } from '../../../types/hekaya'
 import { GlassCard } from '../../shared/GlassCard'
 import { NeonButton } from '../../shared/NeonButton'
@@ -10,6 +9,7 @@ interface ChapterHubProps {
   chapters: Chapter[]
   progress: ChapterProgress[]
   locale: HekayaLocale
+  finalCelebrationUrl: string
   onSelectChapter: (id: string) => void
   onResetProgress?: () => void
 }
@@ -27,11 +27,10 @@ export function ChapterHub({
   chapters,
   progress,
   locale,
+  finalCelebrationUrl,
   onSelectChapter,
   onResetProgress,
 }: ChapterHubProps) {
-  const [showFireworks, setShowFireworks] = useState(false)
-
   const accessList: ChapterAccessItem[] = useMemo(() => {
     const getChapterProgress = (chapterId: string) =>
       progress.find((item) => item.chapterId === chapterId)
@@ -198,7 +197,7 @@ export function ChapterHub({
         ))}
       </div>
 
-      {allChaptersCompleted && !showFireworks ? (
+      {allChaptersCompleted ? (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -209,7 +208,20 @@ export function ChapterHub({
             type="button"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.96 }}
-            onClick={() => setShowFireworks(true)}
+            onClick={() => {
+              const popup = window.open(
+                finalCelebrationUrl,
+                '_blank',
+                'noopener,noreferrer',
+              )
+              if (!popup) {
+                window.alert(
+                  locale === 'ar'
+                    ? 'لم نتمكن من فتح نافذة جديدة. من فضلك فعّل السماح بالنوافذ المنبثقة لهذا الموقع.'
+                    : 'We could not open a new window. Please allow popups for this site.',
+                )
+              }
+            }}
             className="rounded-2xl bg-[linear-gradient(90deg,#d946ef,#a855f7)] px-10 py-4 text-xl font-bold text-white shadow-[0_12px_30px_rgba(217,70,239,0.5)] transition hover:shadow-[0_16px_36px_rgba(217,70,239,0.6)] sm:px-12 sm:py-5 sm:text-2xl"
           >
             {fireworksCopy.start}
@@ -218,14 +230,6 @@ export function ChapterHub({
             {fireworksCopy.hint}
           </p>
         </motion.div>
-      ) : null}
-
-      {showFireworks ? (
-        <HekayaFireworks
-          onComplete={() => {
-            setShowFireworks(false)
-          }}
-        />
       ) : null}
     </motion.div>
   )
