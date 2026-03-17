@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { ChapterHub } from '../../components/hekaya/chapters/ChapterHub'
 import { ChapterView } from '../../components/hekaya/chapters/ChapterView'
+import FinalReveal from '../../components/hekaya/final/FinalReveal'
 import { HeartDateGate } from '../../components/hekaya/unlock/HeartDateGate'
 import { GlassCard } from '../../components/shared/GlassCard'
 import { NeonButton } from '../../components/shared/NeonButton'
@@ -109,6 +110,13 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
     if (target) setActiveChapterId(target)
   }
 
+  const handleNavigate = (destination: string) => {
+    if (destination === 'final-message') {
+      setStage('final_reveal')
+      setActiveChapterId(null)
+    }
+  }
+
   return (
     <main className="relative isolate min-h-screen overflow-hidden">
       <StarField count={96} />
@@ -190,6 +198,17 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
           </motion.div>
         ) : null}
 
+        {stage === 'final_reveal' ? (
+          <FinalReveal
+            config={config.finalReveal}
+            locale={config.locale}
+            onComplete={() => {
+              setStage('unlocked')
+              setActiveChapterId(null)
+            }}
+          />
+        ) : null}
+
         {stage === 'unlocked' ? (
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -244,6 +263,7 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
                 finalCelebrationUrl={config.finalCelebrationUrl}
                 onSelectChapter={setActiveChapterId}
                 onResetProgress={resetProgress}
+                onNavigate={handleNavigate}
               />
             )}
           </motion.div>

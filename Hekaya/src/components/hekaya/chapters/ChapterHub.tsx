@@ -12,6 +12,7 @@ interface ChapterHubProps {
   finalCelebrationUrl: string
   onSelectChapter: (id: string) => void
   onResetProgress?: () => void
+  onNavigate?: (destination: string) => void
 }
 
 interface ChapterAccessItem {
@@ -30,6 +31,7 @@ export function ChapterHub({
   finalCelebrationUrl,
   onSelectChapter,
   onResetProgress,
+  onNavigate,
 }: ChapterHubProps) {
   const accessList: ChapterAccessItem[] = useMemo(() => {
     const getChapterProgress = (chapterId: string) =>
@@ -127,6 +129,17 @@ export function ChapterHub({
         hint: 'A special celebration is ready for you.',
       }
 
+  const finalMessageCopy =
+    locale === 'ar'
+      ? {
+        button: '💌 الرسالة الأخيرة',
+        hint: 'و رسالة خاصة في انتظارك',
+      }
+      : {
+        button: '💌 Final Message',
+        hint: 'A special message awaits you',
+      }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -202,7 +215,7 @@ export function ChapterHub({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="text-center"
+          className="space-y-4 text-center"
         >
           <motion.button
             type="button"
@@ -219,8 +232,19 @@ export function ChapterHub({
           >
             {fireworksCopy.start}
           </motion.button>
+
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.96 }}
+            onClick={() => onNavigate?.('final-message')}
+            className="rounded-2xl bg-[linear-gradient(90deg,#fbbf24,#f59e0b)] px-10 py-4 text-xl font-bold text-[#2a1a02] shadow-[0_12px_30px_rgba(251,191,36,0.45)] transition hover:shadow-[0_16px_36px_rgba(251,191,36,0.55)] sm:px-12 sm:py-5 sm:text-2xl"
+          >
+            {finalMessageCopy.button}
+          </motion.button>
+
           <p className="mt-4 text-sm text-[var(--hekaya-text-secondary)]">
-            {fireworksCopy.hint}
+            {fireworksCopy.hint} • {finalMessageCopy.hint}
           </p>
         </motion.div>
       ) : null}
