@@ -138,7 +138,7 @@ export const hekayaConfig: HekayaConfig = {
         'أنا مش عارف المستقبل شكله إيه، بس عارف إني عايز أعيشه كله معاكي. كل لحظة، وكل يوم.',
       voiceNote: {
         src: '/audio/sealed_promise.mp3',
-        label: 'اسمعي وعدي',
+        label: 'اسمعي وعدي ليكي',
       },
       question: {
         id: 'q4',

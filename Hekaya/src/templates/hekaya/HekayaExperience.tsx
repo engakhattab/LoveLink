@@ -89,13 +89,11 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
       ? {
         title: `رحلة ${config.receiverName} ❤️ ${config.senderName}`,
         start: 'ابدئي الحكاية',
-        locked: 'لسه فيه كمان قفل😂',
+        locked: 'عاملك شوية حركات قبل ما نبدأ😂',
         unlocked: 'شطورة فتحتي حكايتنا',
         unlockHint:
-          'المدخل الآن ببوابة القلب والتاريخ فقط... أما التحدي فهو جوه الفصل الثالث.',
-        entering: 'أهلا بيكي في الحكاية...',
-        done:
-          'تم تعديل النظام: الفصل الثالث بيطلب لعبة X-O داخل الفصل نفسه قبل عرض المحتوى.',
+          'امشي ورا المكتوب للاخر يا حبيبتي.',
+        entering: 'أهلا بيكي في حكايتنا...',
       }
       : {
         title: `${config.receiverName} & ${config.senderName}'s Story`,
@@ -105,8 +103,6 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
         unlockHint:
           'Entry now uses the heart/date ritual only. The X-O challenge lives inside Chapter 3.',
         entering: 'Welcome into the story...',
-        done:
-          'Unlock system updated: Chapter 3 now requires an in-chapter X-O game before content.',
       }
 
   const openStartChapter = () => {
@@ -239,7 +235,6 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
             className="space-y-4"
           >
             <GlassCard className="space-y-2">
-              <p className="text-sm text-[var(--hekaya-success)]">{copy.done}</p>
               <p className="text-xs text-[var(--hekaya-text-muted)]">
                 {config.locale === 'ar'
                   ? `الأسئلة المتأملة: ${reflectedQuestionIds.length}`

@@ -30,7 +30,7 @@ export function ChapterCard({
 
   const statusText = locked
     ? locale === 'ar'
-      ? 'مغلق'
+      ? 'مقفول'
       : 'Locked'
     : viewed
       ? locale === 'ar'

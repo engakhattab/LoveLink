@@ -139,8 +139,8 @@ export function ChapterHub({
   const finalMessageCopy =
     locale === 'ar'
       ? {
-        button: '💌 الرسالة الأخيرة',
-        hint: 'و رسالة خاصة في انتظارك',
+        button: '💌 رسالتي الأخيرة ليكي',
+        hint: 'و رسالة خاصة مستنياكي',
       }
       : {
         button: '💌 Final Message',
@@ -150,8 +150,8 @@ export function ChapterHub({
   const sealedCopy =
     locale === 'ar'
       ? {
-        button: '💌 الرسالة المختومة',
-        hint: 'وعد محفوظ لوقت مناسب',
+        button: '💌 كبسولة الزمن',
+        hint: 'هتتفتح في الوقت المناسب',
       }
       : {
         button: '💌 Sealed Letter',

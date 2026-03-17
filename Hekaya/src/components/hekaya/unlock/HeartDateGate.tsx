@@ -157,9 +157,9 @@ export function HeartDateGate({
   const copy =
     locale === 'ar'
       ? {
-        ceremonyTitle: 'الطقس الافتتاحي',
+        ceremonyTitle: 'يلا بينا',
         ceremonyHint: longPressRequired
-          ? 'اضغطي على القلب لمدة ثانيتين لفتح البوابة'
+          ? 'دوسي على القلب لمدة ثانيتين عشان تدخلي'
           : 'اضغطي على القلب عشان تروحي لمرحلة تاريخنا',
         fallbackMessage:
           'الحكاية دي مخبية جوا قلبي ليكي كتير... حطي إيدك على القلب ده.',
