@@ -196,7 +196,7 @@ export const hekayaConfig: HekayaConfig = {
 
   sealedEnvelope: {
     enabled: true,
-    unlockDate: '2024-03-14',
+    unlockDate: '2028-03-14',
     previewText: 'رسالة للمستقبل 💌',
     sealedMessage:
       'لو وصلتي للرسالة دي، فده معناه إن الحكاية كبرت أكتر وأجمل. وعدي ليكي إن كل سنة جاية هتكون أحلى.',

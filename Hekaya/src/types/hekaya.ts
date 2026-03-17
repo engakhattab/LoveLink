@@ -4,8 +4,11 @@ export type HekayaStage =
   | 'locked_heart'
   | 'entering'
   | 'unlocked'
+  | 'sealed_envelope'
   | 'final_reveal'
   | 'complete'
+
+export type HekayaHubDestination = 'sealed-envelope' | 'final-message'
 
 export interface UnlockDateConfig {
   year: number

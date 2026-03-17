@@ -3,12 +3,17 @@ import { useEffect, useState } from 'react'
 import { ChapterHub } from '../../components/hekaya/chapters/ChapterHub'
 import { ChapterView } from '../../components/hekaya/chapters/ChapterView'
 import FinalReveal from '../../components/hekaya/final/FinalReveal'
+import SealedEnvelope from '../../components/hekaya/sealed/SealedEnvelope'
 import { HeartDateGate } from '../../components/hekaya/unlock/HeartDateGate'
 import { GlassCard } from '../../components/shared/GlassCard'
 import { NeonButton } from '../../components/shared/NeonButton'
 import { StarField } from '../../components/shared/StarField'
 import { useChapterProgress } from '../../hooks/useChapterProgress'
-import type { HekayaConfig, HekayaStage } from '../../types/hekaya'
+import type {
+  HekayaConfig,
+  HekayaHubDestination,
+  HekayaStage,
+} from '../../types/hekaya'
 
 interface HekayaExperienceProps {
   config: HekayaConfig
@@ -110,7 +115,13 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
     if (target) setActiveChapterId(target)
   }
 
-  const handleNavigate = (destination: string) => {
+  const handleNavigate = (destination: HekayaHubDestination) => {
+    if (destination === 'sealed-envelope') {
+      setStage('sealed_envelope')
+      setActiveChapterId(null)
+      return
+    }
+
     if (destination === 'final-message') {
       setStage('final_reveal')
       setActiveChapterId(null)
@@ -198,6 +209,17 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
           </motion.div>
         ) : null}
 
+        {stage === 'sealed_envelope' ? (
+          <SealedEnvelope
+            config={config.sealedEnvelope}
+            locale={config.locale}
+            onClose={() => {
+              setStage('unlocked')
+              setActiveChapterId(null)
+            }}
+          />
+        ) : null}
+
         {stage === 'final_reveal' ? (
           <FinalReveal
             config={config.finalReveal}
@@ -261,6 +283,7 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
                 progress={progress}
                 locale={config.locale}
                 finalCelebrationUrl={config.finalCelebrationUrl}
+                sealedEnvelopeEnabled={config.sealedEnvelope.enabled}
                 onSelectChapter={setActiveChapterId}
                 onResetProgress={resetProgress}
                 onNavigate={handleNavigate}

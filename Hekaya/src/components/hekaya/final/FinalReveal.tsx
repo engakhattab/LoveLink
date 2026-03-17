@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import type { FinalRevealConfig, HekayaLocale } from '../../../types/hekaya'
+import VoicePlayer from '../../shared/VoicePlayer'
 import { GlassCard } from '../../shared/GlassCard'
 import { NeonButton } from '../../shared/NeonButton'
 
@@ -142,12 +143,14 @@ function MessageCard({
               duration: 0.6,
               delay: 0.6 + lines.length * 0.4 + 1,
             }}
-            className="mx-auto max-w-md space-y-2"
+            className="mx-auto w-full max-w-md"
           >
-            <p className="text-sm tracking-[0.14em] text-[var(--hekaya-text-muted)] uppercase">
-              {voiceNote.label}
-            </p>
-            <audio controls preload="none" src={voiceNote.src} className="w-full" />
+            <VoicePlayer
+              src={voiceNote.src}
+              label={voiceNote.label}
+              duration={voiceNote.duration}
+              locale={locale}
+            />
           </motion.div>
         ) : null}
 

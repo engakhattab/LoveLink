@@ -1,6 +1,11 @@
 import { motion } from 'framer-motion'
 import { useMemo } from 'react'
-import type { Chapter, ChapterProgress, HekayaLocale } from '../../../types/hekaya'
+import type {
+  Chapter,
+  ChapterProgress,
+  HekayaHubDestination,
+  HekayaLocale,
+} from '../../../types/hekaya'
 import { GlassCard } from '../../shared/GlassCard'
 import { NeonButton } from '../../shared/NeonButton'
 import { ChapterCard } from './ChapterCard'
@@ -10,9 +15,10 @@ interface ChapterHubProps {
   progress: ChapterProgress[]
   locale: HekayaLocale
   finalCelebrationUrl: string
+  sealedEnvelopeEnabled?: boolean
   onSelectChapter: (id: string) => void
   onResetProgress?: () => void
-  onNavigate?: (destination: string) => void
+  onNavigate?: (destination: HekayaHubDestination) => void
 }
 
 interface ChapterAccessItem {
@@ -29,6 +35,7 @@ export function ChapterHub({
   progress,
   locale,
   finalCelebrationUrl,
+  sealedEnvelopeEnabled = false,
   onSelectChapter,
   onResetProgress,
   onNavigate,
@@ -140,6 +147,17 @@ export function ChapterHub({
         hint: 'A special message awaits you',
       }
 
+  const sealedCopy =
+    locale === 'ar'
+      ? {
+        button: '💌 الرسالة المختومة',
+        hint: 'وعد محفوظ لوقت مناسب',
+      }
+      : {
+        button: '💌 Sealed Letter',
+        hint: 'A promise saved for the right time',
+      }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -233,6 +251,18 @@ export function ChapterHub({
             {fireworksCopy.start}
           </motion.button>
 
+          {sealedEnvelopeEnabled ? (
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={() => onNavigate?.('sealed-envelope')}
+              className="rounded-2xl border border-[rgba(251,191,36,0.45)] bg-[linear-gradient(140deg,rgba(54,31,78,0.96),rgba(27,14,48,0.96))] px-10 py-4 text-xl font-bold text-[var(--hekaya-text-primary)] shadow-[0_12px_30px_rgba(251,191,36,0.18)] transition hover:shadow-[0_16px_36px_rgba(251,191,36,0.24)] sm:px-12 sm:py-5 sm:text-2xl"
+            >
+              {sealedCopy.button}
+            </motion.button>
+          ) : null}
+
           <motion.button
             type="button"
             whileHover={{ scale: 1.03 }}
@@ -244,7 +274,13 @@ export function ChapterHub({
           </motion.button>
 
           <p className="mt-4 text-sm text-[var(--hekaya-text-secondary)]">
-            {fireworksCopy.hint} • {finalMessageCopy.hint}
+            {[
+              fireworksCopy.hint,
+              sealedEnvelopeEnabled ? sealedCopy.hint : undefined,
+              finalMessageCopy.hint,
+            ]
+              .filter(Boolean)
+              .join(' • ')}
           </p>
         </motion.div>
       ) : null}

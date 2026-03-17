@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Chapter, ChapterProgress, HekayaLocale } from '../../../types/hekaya'
 import { GlassCard } from '../../shared/GlassCard'
 import { NeonButton } from '../../shared/NeonButton'
+import VoicePlayer from '../../shared/VoicePlayer'
 import { PhotoCard } from '../shared/PhotoCard'
 import { ChapterXOGame } from './ChapterXOGame'
 import { QuestionMoment } from './QuestionMoment'
@@ -161,10 +162,12 @@ export function ChapterView({
           <h4 className="text-sm tracking-[0.14em] text-[var(--hekaya-text-muted)] uppercase">
             {copy.voice}
           </h4>
-          <p className="text-sm text-[var(--hekaya-text-secondary)]">
-            {chapter.voiceNote.label}
-          </p>
-          <audio controls preload="none" src={chapter.voiceNote.src} className="w-full" />
+          <VoicePlayer
+            src={chapter.voiceNote.src}
+            label={chapter.voiceNote.label}
+            duration={chapter.voiceNote.duration}
+            locale={locale}
+          />
         </GlassCard>
       ) : null}
 
