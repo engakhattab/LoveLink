@@ -4,11 +4,15 @@ export type HekayaStage =
   | 'locked_heart'
   | 'entering'
   | 'unlocked'
+  | 'constellation'
   | 'sealed_envelope'
   | 'final_reveal'
   | 'complete'
 
-export type HekayaHubDestination = 'sealed-envelope' | 'final-message'
+export type HekayaHubDestination =
+  | 'constellation'
+  | 'sealed-envelope'
+  | 'final-message'
 
 export interface UnlockDateConfig {
   year: number
@@ -156,6 +160,16 @@ function isInvalidCalendarDate(year: number, month: number, day: number) {
   )
 }
 
+function isLikelyHttpUrl(value: string) {
+  if (!value.trim()) return false
+  try {
+    const parsed = new URL(value)
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
 export function validateHekayaConfig(config: HekayaConfig): HekayaValidation {
   const errors: string[] = []
   const warnings: string[] = []
@@ -235,6 +249,10 @@ export function validateHekayaConfig(config: HekayaConfig): HekayaValidation {
 
   if (!config.finalReveal.message) {
     errors.push('Final reveal message is required')
+  }
+
+  if (!isLikelyHttpUrl(config.finalCelebrationUrl)) {
+    warnings.push('Final celebration URL is missing or invalid')
   }
 
   return {

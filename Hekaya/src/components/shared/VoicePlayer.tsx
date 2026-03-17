@@ -7,6 +7,7 @@ interface VoicePlayerProps {
   duration?: number
   locale: HekayaLocale
   className?: string
+  onError?: () => void
 }
 
 const ARABIC_DIGIT_FORMATTER = new Intl.NumberFormat('ar-EG', {
@@ -36,12 +37,14 @@ export function VoicePlayer({
   duration,
   locale,
   className,
+  onError,
 }: VoicePlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [resolvedDuration, setResolvedDuration] = useState(duration ?? 0)
   const [isReady, setIsReady] = useState(false)
+  const [hasError, setHasError] = useState(false)
 
   const copy =
     locale === 'ar'
@@ -49,13 +52,15 @@ export function VoicePlayer({
           play: 'تشغيل',
           pause: 'إيقاف',
           fallbackLabel: 'رسالة صوتية',
-          loading: 'جارٍ التحميل...',
+          loading: 'جاري التحميل...',
+          failed: 'تعذر تحميل الرسالة الصوتية حالياً.',
         }
       : {
           play: 'Play',
           pause: 'Pause',
           fallbackLabel: 'Voice Note',
           loading: 'Loading...',
+          failed: 'Unable to load this voice note right now.',
         }
 
   useEffect(() => {
@@ -63,6 +68,7 @@ export function VoicePlayer({
     setCurrentTime(0)
     setResolvedDuration(duration ?? 0)
     setIsReady(false)
+    setHasError(false)
   }, [duration, src])
 
   useEffect(() => {
@@ -72,6 +78,7 @@ export function VoicePlayer({
     const handleLoadedMetadata = () => {
       setResolvedDuration(audio.duration || duration || 0)
       setIsReady(true)
+      setHasError(false)
     }
 
     const handleTimeUpdate = () => {
@@ -85,11 +92,19 @@ export function VoicePlayer({
       setCurrentTime(audio.duration || 0)
     }
 
+    const handleError = () => {
+      setHasError(true)
+      setIsPlaying(false)
+      setIsReady(false)
+      onError?.()
+    }
+
     audio.addEventListener('loadedmetadata', handleLoadedMetadata)
     audio.addEventListener('timeupdate', handleTimeUpdate)
     audio.addEventListener('play', handlePlay)
     audio.addEventListener('pause', handlePause)
     audio.addEventListener('ended', handleEnded)
+    audio.addEventListener('error', handleError)
 
     if (audio.readyState >= 1) {
       handleLoadedMetadata()
@@ -101,10 +116,13 @@ export function VoicePlayer({
       audio.removeEventListener('play', handlePlay)
       audio.removeEventListener('pause', handlePause)
       audio.removeEventListener('ended', handleEnded)
+      audio.removeEventListener('error', handleError)
     }
-  }, [duration, src])
+  }, [duration, onError, src])
 
   const handleTogglePlayback = async () => {
+    if (hasError) return
+
     const audio = audioRef.current
     if (!audio) return
 
@@ -120,6 +138,8 @@ export function VoicePlayer({
   }
 
   const handleSeek = (event: ChangeEvent<HTMLInputElement>) => {
+    if (hasError) return
+
     const audio = audioRef.current
     if (!audio) return
 
@@ -130,6 +150,7 @@ export function VoicePlayer({
 
   const maxDuration = resolvedDuration > 0 ? resolvedDuration : 1
   const currentValue = Math.min(currentTime, maxDuration)
+  const controlsDisabled = hasError || resolvedDuration <= 0
 
   return (
     <div
@@ -142,7 +163,8 @@ export function VoicePlayer({
           type="button"
           aria-label={isPlaying ? copy.pause : copy.play}
           onClick={handleTogglePlayback}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[rgba(251,191,36,0.45)] bg-[rgba(251,191,36,0.15)] text-[var(--hekaya-star-bright)] transition hover:bg-[rgba(251,191,36,0.24)]"
+          disabled={hasError}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[rgba(251,191,36,0.45)] bg-[rgba(251,191,36,0.15)] text-[var(--hekaya-star-bright)] transition hover:bg-[rgba(251,191,36,0.24)] disabled:cursor-not-allowed disabled:opacity-45"
         >
           <span aria-hidden>{isPlaying ? '❚❚' : '▶'}</span>
         </button>
@@ -152,7 +174,9 @@ export function VoicePlayer({
             <p className="truncate text-sm text-[var(--hekaya-text-primary)]">
               {label ?? copy.fallbackLabel}
             </p>
-            {!isReady ? (
+            {hasError ? (
+              <span className="text-xs text-[var(--hekaya-error)]">{copy.failed}</span>
+            ) : !isReady ? (
               <span className="text-xs text-[var(--hekaya-text-muted)]">
                 {copy.loading}
               </span>
@@ -166,7 +190,7 @@ export function VoicePlayer({
             step={1}
             value={currentValue}
             onChange={handleSeek}
-            disabled={resolvedDuration <= 0}
+            disabled={controlsDisabled}
             className="hekaya-range w-full"
             aria-label={locale === 'ar' ? 'تقديم الصوت' : 'Seek audio'}
           />

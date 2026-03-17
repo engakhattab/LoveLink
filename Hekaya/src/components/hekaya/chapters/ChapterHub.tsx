@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import type {
   Chapter,
   ChapterProgress,
@@ -15,6 +15,7 @@ interface ChapterHubProps {
   progress: ChapterProgress[]
   locale: HekayaLocale
   finalCelebrationUrl: string
+  constellationEnabled?: boolean
   sealedEnvelopeEnabled?: boolean
   onSelectChapter: (id: string) => void
   onResetProgress?: () => void
@@ -30,16 +31,31 @@ interface ChapterAccessItem {
   showGameIcon: boolean
 }
 
+function isValidHttpUrl(value: string) {
+  if (!value.trim()) return false
+  try {
+    const parsed = new URL(value)
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
 export function ChapterHub({
   chapters,
   progress,
   locale,
   finalCelebrationUrl,
+  constellationEnabled = false,
   sealedEnvelopeEnabled = false,
   onSelectChapter,
   onResetProgress,
   onNavigate,
 }: ChapterHubProps) {
+  const [celebrationLinkError, setCelebrationLinkError] = useState<string | null>(
+    null,
+  )
+
   const accessList: ChapterAccessItem[] = useMemo(() => {
     const getChapterProgress = (chapterId: string) =>
       progress.find((item) => item.chapterId === chapterId)
@@ -111,52 +127,98 @@ export function ChapterHub({
   const copy =
     locale === 'ar'
       ? {
-        title: 'فصول الحكاية',
-        subtitle: 'الأبواب بتتفتح بالتدريج... كل فصل له وقته.',
-        progressLabel: 'تقدم المشاهدة',
-        continueCta: 'كملي من آخر محطة',
-        reset: 'إعادة التقدم',
-      }
+          title: 'فصول الحكاية',
+          subtitle: 'الأبواب بتتفتح بالتدريج... كل فصل له وقته.',
+          progressLabel: 'تقدم المشاهدة',
+          continueCta: 'كملي من آخر محطة',
+          reset: 'إعادة التقدم',
+        }
       : {
-        title: 'Story Chapters',
-        subtitle: 'Chapters unlock in sequence and each one has its own gate.',
-        progressLabel: 'Viewing Progress',
-        continueCta: 'Continue Journey',
-        reset: 'Reset Progress',
-      }
+          title: 'Story Chapters',
+          subtitle: 'Chapters unlock in sequence and each one has its own gate.',
+          progressLabel: 'Viewing Progress',
+          continueCta: 'Continue Journey',
+          reset: 'Reset Progress',
+        }
+
+  const celebrationCopy =
+    locale === 'ar'
+      ? {
+          popupBlocked:
+            'تعذر فتح العرض تلقائياً. استخدمي الرابط المباشر أسفل الزر.',
+          invalidUrl: 'رابط العرض النهائي غير صالح حالياً.',
+          openDirect: 'فتح الرابط مباشرة',
+        }
+      : {
+          popupBlocked:
+            'The celebration could not open automatically. Use the direct link below.',
+          invalidUrl: 'The final celebration link is currently invalid.',
+          openDirect: 'Open direct link',
+        }
 
   const fireworksCopy =
     locale === 'ar'
       ? {
-        start: '🎆 ابدأ العرض النهائي',
-        hint: 'عرض خاص من الألعاب النارية',
-      }
+          start: '🎆 ابدأ العرض النهائي',
+          hint: 'عرض خاص من الألعاب النارية',
+        }
       : {
-        start: 'Start Final Fireworks',
-        hint: 'A special celebration is ready for you.',
-      }
+          start: 'Start Final Fireworks',
+          hint: 'A special celebration is ready for you.',
+        }
+
+  const constellationCopy =
+    locale === 'ar'
+      ? {
+          button: '✨ كوكبة الذكريات',
+          hint: 'استكشفي ذكرياتنا وسط النجوم',
+        }
+      : {
+          button: '✨ Memory Constellation',
+          hint: 'Explore our memories among the stars',
+        }
 
   const finalMessageCopy =
     locale === 'ar'
       ? {
-        button: '💌 رسالتي الأخيرة ليكي',
-        hint: 'و رسالة خاصة مستنياكي',
-      }
+          button: '💌 رسالتي الأخيرة ليكي',
+          hint: 'و رسالة خاصة مستنياكي',
+        }
       : {
-        button: '💌 Final Message',
-        hint: 'A special message awaits you',
-      }
+          button: '💌 Final Message',
+          hint: 'A special message awaits you',
+        }
 
   const sealedCopy =
     locale === 'ar'
       ? {
-        button: '💌 كبسولة الزمن',
-        hint: 'هتتفتح في الوقت المناسب',
-      }
+          button: '💌 كبسولة الزمن',
+          hint: 'هتتفتح في الوقت المناسب',
+        }
       : {
-        button: '💌 Sealed Letter',
-        hint: 'A promise saved for the right time',
-      }
+          button: '💌 Sealed Letter',
+          hint: 'A promise saved for the right time',
+        }
+
+  const canOpenCelebration = isValidHttpUrl(finalCelebrationUrl)
+  const celebrationErrorToShow = !canOpenCelebration
+    ? celebrationCopy.invalidUrl
+    : celebrationLinkError
+
+  const handleOpenCelebration = () => {
+    if (!canOpenCelebration) {
+      setCelebrationLinkError(celebrationCopy.invalidUrl)
+      return
+    }
+
+    const opened = window.open(finalCelebrationUrl, '_blank', 'noopener,noreferrer')
+    if (!opened) {
+      setCelebrationLinkError(celebrationCopy.popupBlocked)
+      return
+    }
+
+    setCelebrationLinkError(null)
+  }
 
   return (
     <motion.div
@@ -187,7 +249,9 @@ export function ChapterHub({
                 className="h-full bg-[linear-gradient(90deg,var(--hekaya-neon-primary),var(--hekaya-gold))]"
               />
             </div>
-            <p className="mt-1 text-xs text-[var(--hekaya-text-muted)]">{completionPercent}%</p>
+            <p className="mt-1 text-xs text-[var(--hekaya-text-muted)]">
+              {completionPercent}%
+            </p>
           </div>
         </div>
 
@@ -239,17 +303,24 @@ export function ChapterHub({
             type="button"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.96 }}
-            onClick={() => {
-              void window.open(
-                finalCelebrationUrl,
-                '_blank',
-                'noopener,noreferrer',
-              )
-            }}
-            className="rounded-2xl bg-[linear-gradient(90deg,#d946ef,#a855f7)] px-10 py-4 text-xl font-bold text-white shadow-[0_12px_30px_rgba(217,70,239,0.5)] transition hover:shadow-[0_16px_36px_rgba(217,70,239,0.6)] sm:px-12 sm:py-5 sm:text-2xl"
+            onClick={handleOpenCelebration}
+            disabled={!canOpenCelebration}
+            className="rounded-2xl bg-[linear-gradient(90deg,#d946ef,#a855f7)] px-10 py-4 text-xl font-bold text-white shadow-[0_12px_30px_rgba(217,70,239,0.5)] transition hover:shadow-[0_16px_36px_rgba(217,70,239,0.6)] disabled:cursor-not-allowed disabled:opacity-60 sm:px-12 sm:py-5 sm:text-2xl"
           >
             {fireworksCopy.start}
           </motion.button>
+
+          {constellationEnabled ? (
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={() => onNavigate?.('constellation')}
+              className="rounded-2xl border border-[rgba(167,139,250,0.45)] bg-[linear-gradient(140deg,rgba(54,31,78,0.96),rgba(27,14,48,0.96))] px-10 py-4 text-xl font-bold text-[var(--hekaya-text-primary)] shadow-[0_12px_30px_rgba(167,139,250,0.2)] transition hover:shadow-[0_16px_36px_rgba(167,139,250,0.28)] sm:px-12 sm:py-5 sm:text-2xl"
+            >
+              {constellationCopy.button}
+            </motion.button>
+          ) : null}
 
           {sealedEnvelopeEnabled ? (
             <motion.button
@@ -276,12 +347,29 @@ export function ChapterHub({
           <p className="mt-4 text-sm text-[var(--hekaya-text-secondary)]">
             {[
               fireworksCopy.hint,
+              constellationEnabled ? constellationCopy.hint : undefined,
               sealedEnvelopeEnabled ? sealedCopy.hint : undefined,
               finalMessageCopy.hint,
             ]
               .filter(Boolean)
               .join(' • ')}
           </p>
+
+          {celebrationErrorToShow ? (
+            <div className="mx-auto max-w-xl rounded-2xl border border-[rgba(248,113,113,0.35)] bg-[rgba(54,20,35,0.45)] px-4 py-3 text-sm text-[var(--hekaya-text-primary)]">
+              <p>{celebrationErrorToShow}</p>
+              {canOpenCelebration ? (
+                <a
+                  href={finalCelebrationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-block text-[var(--hekaya-gold)] underline decoration-[rgba(251,191,36,0.6)] underline-offset-4"
+                >
+                  {celebrationCopy.openDirect}
+                </a>
+              ) : null}
+            </div>
+          ) : null}
         </motion.div>
       ) : null}
     </motion.div>

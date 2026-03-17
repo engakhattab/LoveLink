@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { HekayaLocale, SealedEnvelopeConfig } from '../../../types/hekaya'
 import VoicePlayer from '../../shared/VoicePlayer'
 import { GlassCard } from '../../shared/GlassCard'
@@ -86,7 +86,11 @@ function EnvelopeVisual({ stage }: { stage: EnvelopeStage }) {
 
       <motion.div
         initial={false}
-        animate={isOpening ? { scale: [1, 1.2, 0], opacity: [1, 0.8, 0] } : { scale: 1, opacity: 1 }}
+        animate={
+          isOpening
+            ? { scale: [1, 1.2, 0], opacity: [1, 0.8, 0] }
+            : { scale: 1, opacity: 1 }
+        }
         transition={{ duration: 0.75, ease: 'easeOut' }}
         className="absolute left-1/2 top-[58%] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(251,191,36,0.5)] bg-[rgba(251,191,36,0.18)] text-[var(--hekaya-gold)] shadow-[0_0_30px_rgba(251,191,36,0.35)]"
       >
@@ -102,7 +106,9 @@ export function SealedEnvelope({ config, locale, onClose }: SealedEnvelopeProps)
   const [targetDate, setTargetDate] = useState<Date | null>(null)
   const [unlocked, setUnlocked] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  const [voiceFailed, setVoiceFailed] = useState(false)
   const openingTimeoutRef = useRef<number | null>(null)
+  const titleId = useId()
 
   const copy =
     locale === 'ar'
@@ -113,9 +119,10 @@ export function SealedEnvelope({ config, locale, onClose }: SealedEnvelopeProps)
           open: 'افتحي الرسالة',
           close: 'الرجوع للفهرس',
           fallbackLocked: 'مختوم حتى يحين الوقت المناسب',
-          afterDays: 'يُفتح بعد {days} يوم من أول زيارة',
+          afterDays: 'يفتح بعد {days} يوم من أول زيارة',
           untilDate: 'مختوم حتى {date}',
           openedHint: 'وعد محفوظ لوقته المناسب',
+          voiceFailed: 'تعذر تشغيل الرسالة الصوتية حالياً.',
         }
       : {
           readyTitle: 'The Letter Is Ready',
@@ -127,6 +134,7 @@ export function SealedEnvelope({ config, locale, onClose }: SealedEnvelopeProps)
           afterDays: 'Opens after {days} days from first visit',
           untilDate: 'Sealed until {date}',
           openedHint: 'A promise saved for the right moment',
+          voiceFailed: 'Unable to play the voice note right now.',
         }
 
   const paragraphs = useMemo(
@@ -166,6 +174,28 @@ export function SealedEnvelope({ config, locale, onClose }: SealedEnvelopeProps)
   ])
 
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onClose])
+
+  useEffect(() => {
     return () => {
       if (openingTimeoutRef.current !== null) {
         window.clearTimeout(openingTimeoutRef.current)
@@ -195,6 +225,7 @@ export function SealedEnvelope({ config, locale, onClose }: SealedEnvelopeProps)
     setFirstViewedAt(nextFirstViewedAt)
     setTargetDate(target)
     setUnlocked(unlockedNow)
+    setVoiceFailed(false)
     setStage(effectiveOpenedAt ? 'opened' : unlockedNow ? 'ready' : 'locked')
 
     const payload: StoredSealedEnvelopeProgress = {
@@ -240,6 +271,10 @@ export function SealedEnvelope({ config, locale, onClose }: SealedEnvelopeProps)
         background:
           'radial-gradient(circle at 20% 0%, rgba(217,70,239,0.16), transparent 45%), radial-gradient(circle at 90% 10%, rgba(251,191,36,0.12), transparent 42%), linear-gradient(180deg, #16042b 0%, #0a0118 100%)',
       }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      dir={locale === 'ar' ? 'rtl' : 'ltr'}
     >
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.97 }}
@@ -249,7 +284,10 @@ export function SealedEnvelope({ config, locale, onClose }: SealedEnvelopeProps)
       >
         <GlassCard tone="elevated" className="space-y-6 py-10 text-center sm:py-12">
           <div className="space-y-2">
-            <h2 className="hekaya-font-display text-2xl text-[var(--hekaya-text-primary)] sm:text-3xl">
+            <h2
+              id={titleId}
+              className="hekaya-font-display text-2xl text-[var(--hekaya-text-primary)] sm:text-3xl"
+            >
               {stage === 'ready' ? copy.readyTitle : config.previewText}
             </h2>
             {stage === 'ready' ? (
@@ -314,7 +352,10 @@ export function SealedEnvelope({ config, locale, onClose }: SealedEnvelopeProps)
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.85 + paragraphs.length * 0.22 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.85 + paragraphs.length * 0.22,
+                  }}
                   className="mx-auto w-full max-w-md"
                 >
                   <VoicePlayer
@@ -322,7 +363,13 @@ export function SealedEnvelope({ config, locale, onClose }: SealedEnvelopeProps)
                     label={config.voiceNote.label}
                     duration={config.voiceNote.duration}
                     locale={locale}
+                    onError={() => setVoiceFailed(true)}
                   />
+                  {voiceFailed ? (
+                    <p className="mt-2 text-xs text-[var(--hekaya-text-muted)]">
+                      {copy.voiceFailed}
+                    </p>
+                  ) : null}
                 </motion.div>
               ) : null}
 

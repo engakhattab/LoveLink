@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { ChapterHub } from '../../components/hekaya/chapters/ChapterHub'
 import { ChapterView } from '../../components/hekaya/chapters/ChapterView'
+import { MemoryConstellation } from '../../components/hekaya/constellation/MemoryConstellation'
 import FinalReveal from '../../components/hekaya/final/FinalReveal'
 import SealedEnvelope from '../../components/hekaya/sealed/SealedEnvelope'
 import { HeartDateGate } from '../../components/hekaya/unlock/HeartDateGate'
@@ -27,6 +28,7 @@ const revealTransition = {
 export function HekayaExperience({ config }: HekayaExperienceProps) {
   const [stage, setStage] = useState<HekayaStage>('locked_heart')
   const [activeChapterId, setActiveChapterId] = useState<string | null>(null)
+  const [starCount, setStarCount] = useState(96)
   const isUnlocked = stage === 'unlocked'
 
   const {
@@ -77,6 +79,34 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
     if (!exists) setActiveChapterId(null)
   }, [activeChapterId, config.chapters])
 
+  useEffect(() => {
+    const recalcStars = () => {
+      if (typeof window === 'undefined') return
+      const isReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches
+      const isSmallScreen = window.innerWidth < 640
+      setStarCount(isReducedMotion || isSmallScreen ? 72 : 96)
+    }
+
+    recalcStars()
+    window.addEventListener('resize', recalcStars)
+
+    return () => {
+      window.removeEventListener('resize', recalcStars)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (stage === 'sealed_envelope' && !config.sealedEnvelope.enabled) {
+      setStage('unlocked')
+    }
+
+    if (stage === 'constellation' && !config.constellation.enabled) {
+      setStage('unlocked')
+    }
+  }, [config.constellation.enabled, config.sealedEnvelope.enabled, stage])
+
   // Auto-scroll للأعلى عند تغيير الفصل
   useEffect(() => {
     if (activeChapterId) {
@@ -112,21 +142,26 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
   }
 
   const handleNavigate = (destination: HekayaHubDestination) => {
+    setActiveChapterId(null)
+
+    if (destination === 'constellation') {
+      setStage('constellation')
+      return
+    }
+
     if (destination === 'sealed-envelope') {
       setStage('sealed_envelope')
-      setActiveChapterId(null)
       return
     }
 
     if (destination === 'final-message') {
       setStage('final_reveal')
-      setActiveChapterId(null)
     }
   }
 
   return (
     <main className="relative isolate min-h-screen overflow-hidden">
-      <StarField count={96} />
+      <StarField count={starCount} />
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-12">
         <motion.div
@@ -216,6 +251,19 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
           />
         ) : null}
 
+        {stage === 'constellation' ? (
+          <MemoryConstellation
+            title={config.constellation.title}
+            subtitle={config.constellation.subtitle}
+            memories={config.constellation.memories}
+            locale={config.locale}
+            onClose={() => {
+              setStage('unlocked')
+              setActiveChapterId(null)
+            }}
+          />
+        ) : null}
+
         {stage === 'final_reveal' ? (
           <FinalReveal
             config={config.finalReveal}
@@ -278,6 +326,7 @@ export function HekayaExperience({ config }: HekayaExperienceProps) {
                 progress={progress}
                 locale={config.locale}
                 finalCelebrationUrl={config.finalCelebrationUrl}
+                constellationEnabled={config.constellation.enabled}
                 sealedEnvelopeEnabled={config.sealedEnvelope.enabled}
                 onSelectChapter={setActiveChapterId}
                 onResetProgress={resetProgress}

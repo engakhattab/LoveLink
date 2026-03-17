@@ -1,4 +1,4 @@
-import { validateHekayaConfig, type HekayaConfig } from '../types/hekaya'
+import type { HekayaConfig } from '../types/hekaya'
 
 export const hekayaConfig: HekayaConfig = {
   locale: 'ar',
@@ -42,7 +42,7 @@ export const hekayaConfig: HekayaConfig = {
       message:
         'من اليوم ده وأنا عارف إن وجودك في حياتي مش صدفة. انتي النور اللي خلاني أشوف الدنيا بشكل تاني.',
       voiceNote: {
-        src: '/audio/chapter_1_voice.mp3',
+        src: '/audio/chapter_1_voice.mp3.aac',
         label: 'اسمعي رسالتي ليكي',
       },
       question: {
@@ -98,7 +98,7 @@ export const hekayaConfig: HekayaConfig = {
         'مش كل الأوقات كانت حلوة... كان في أيام صعبة وتحديات كبيرة. بس انتي وقفتي جنبي وأنا وقفت جنبك.',
       photos: [
         {
-          src: '/images/hekaya/chapters/chapter_3_photo_1.jpg',
+          src: '/images/hekaya/chapters/chapter_3_photo_1.webp',
           alt: 'وقت صعب',
           caption: 'لما دعمنا بعض',
         },
@@ -137,7 +137,7 @@ export const hekayaConfig: HekayaConfig = {
       message:
         'أنا مش عارف المستقبل شكله إيه، بس عارف إني عايز أعيشه كله معاكي. كل لحظة، وكل يوم.',
       voiceNote: {
-        src: '/audio/sealed_promise.mp3',
+        src: '/audio/sealed_promise.mp3.aac',
         label: 'اسمعي وعدي ليكي',
       },
       question: {
@@ -173,7 +173,7 @@ export const hekayaConfig: HekayaConfig = {
       },
       {
         id: 'star_3',
-        photo: '/images/hekaya/chapters/chapter_3_photo_1.jpg',
+        photo: '/images/hekaya/chapters/chapter_3_photo_1.webp',
         caption: 'وقت الصعب',
         x: 68,
         y: 58,
@@ -201,7 +201,7 @@ export const hekayaConfig: HekayaConfig = {
     sealedMessage:
       'لو وصلتي للرسالة دي، فده معناه إن الحكاية كبرت أكتر وأجمل. وعدي ليكي إن كل سنة جاية هتكون أحلى.',
     voiceNote: {
-      src: '/audio/sealed_promise.mp3',
+      src: '/audio/sealed_promise.mp3.aac',
       label: 'اسمعي الوعد المختوم',
     },
   },
@@ -218,7 +218,7 @@ export const hekayaConfig: HekayaConfig = {
     ],
     closingNote: 'حبيبك، للأبد',
     voiceNote: {
-      src: '/audio/final_voice.mp3',
+      src: '/audio/sealed_promise.mp3.aac',
       label: 'آخر رسالة',
     },
   },
@@ -235,16 +235,4 @@ export const hekayaConfig: HekayaConfig = {
     'إيه الوعد اللي محتاجة تسمعيه مني كل يوم؟',
     'إيه الحلم اللي عايزة نحققه سوا؟',
   ],
-}
-
-if (import.meta.env.DEV) {
-  const validation = validateHekayaConfig(hekayaConfig)
-
-  if (!validation.isValid) {
-    console.error('Config validation failed:', validation.errors)
-  }
-
-  if (validation.warnings.length > 0) {
-    console.warn('Config warnings:', validation.warnings)
-  }
 }
