@@ -189,15 +189,17 @@ export function SealedEnvelope({ config, locale, onClose }: SealedEnvelopeProps)
     const target = resolveEnvelopeTargetDate(config, nextFirstViewedAt)
     const unlockedNow = isEnvelopeUnlocked(target)
     const openedAt = parseStoredDate(stored.openedAt)
+    // If current config is locked, stale openedAt must be discarded to re-lock.
+    const effectiveOpenedAt = unlockedNow ? openedAt : null
 
     setFirstViewedAt(nextFirstViewedAt)
     setTargetDate(target)
     setUnlocked(unlockedNow)
-    setStage(openedAt ? 'opened' : unlockedNow ? 'ready' : 'locked')
+    setStage(effectiveOpenedAt ? 'opened' : unlockedNow ? 'ready' : 'locked')
 
     const payload: StoredSealedEnvelopeProgress = {
       firstViewedAt: nextFirstViewedAt.toISOString(),
-      openedAt: openedAt?.toISOString(),
+      openedAt: effectiveOpenedAt?.toISOString(),
     }
     window.localStorage.setItem(SEALED_STORAGE_KEY, JSON.stringify(payload))
 
