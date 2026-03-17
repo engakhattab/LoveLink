@@ -5,18 +5,18 @@ dist-ssr
 .DS_Store
 
 # Large local media (do not track in git)
-public/audio/**/*.mp3
-public/audio/**/*.wav
-public/audio/**/*.ogg
-public/audio/**/*.m4a
-public/audio/**/*.aac
-public/audio/**/*.flac
+# public/audio/**/*.mp3
+# public/audio/**/*.wav
+# public/audio/**/*.ogg
+# public/audio/**/*.m4a
+# public/audio/**/*.aac
+# public/audio/**/*.flac
 
-public/images/**/*.jpg
-public/images/**/*.jpeg
-public/images/**/*.png
-public/images/**/*.webp
-public/images/**/*.gif
-public/images/**/*.bmp
-public/images/**/*.tiff
-public/images/**/*.avif
+# public/images/**/*.jpg
+# public/images/**/*.jpeg
+# public/images/**/*.png
+# public/images/**/*.webp
+# public/images/**/*.gif
+# public/images/**/*.bmp
+# public/images/**/*.tiff
+# public/images/**/*.avif
