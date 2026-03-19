@@ -1,7 +1,7 @@
 import type { GiftTemplateConfig } from '../types/gift'
 
 export const lamsaConfig: GiftTemplateConfig = {
-  password: 'lamsa100',
+  password: 'nody',
   receiverName: 'ليلى',
   senderName: 'أحمد',
   meaningfulDate: '2024-05-18',
