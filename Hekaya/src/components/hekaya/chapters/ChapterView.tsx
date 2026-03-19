@@ -56,27 +56,27 @@ export function ChapterView({
     () =>
       locale === 'ar'
         ? {
-            chapterLabel: 'الفصل',
-            mainMessage: 'رسالة الفصل',
-            markViewed: isCompleted ? 'تمت المشاهدة ✓' : 'تأكيد مشاهدة الفصل',
-            back: 'الرجوع للفهرس',
-            previous: 'الفصل السابق',
-            next: 'الفصل التالي',
-            voice: 'رسالة صوتية',
-            questionGate:
-              'لازم تتأملي في السؤال الأول قبل ما نكمل أو نعتبر الفصل مكتمل.',
-          }
+          chapterLabel: 'الفصل',
+          mainMessage: 'رسالة الفصل',
+          markViewed: isCompleted ? 'تمت المشاهدة ✓' : 'تأكيد مشاهدة الفصل',
+          back: 'الرجوع لصفحة الفصول',
+          previous: 'الفصل السابق',
+          next: 'الفصل التالي',
+          voice: 'رسالة صوتية',
+          questionGate:
+            'لازم تتأملي في السؤال الأول قبل ما نكمل أو نعتبر الفصل مكتمل💖.',
+        }
         : {
-            chapterLabel: 'Chapter',
-            mainMessage: 'Main Message',
-            markViewed: isCompleted ? 'Viewed ✓' : 'Mark Chapter as Viewed',
-            back: 'Back to Hub',
-            previous: 'Previous',
-            next: 'Next',
-            voice: 'Voice Note',
-            questionGate:
-              'Please reflect on the question first before continuing the chapter flow.',
-          },
+          chapterLabel: 'Chapter',
+          mainMessage: 'Main Message',
+          markViewed: isCompleted ? 'Viewed ✓' : 'Mark Chapter as Viewed',
+          back: 'Back to Hub',
+          previous: 'Previous',
+          next: 'Next',
+          voice: 'Voice Note',
+          questionGate:
+            'Please reflect on the question first before continuing the chapter flow.',
+        },
     [isCompleted, locale],
   )
 

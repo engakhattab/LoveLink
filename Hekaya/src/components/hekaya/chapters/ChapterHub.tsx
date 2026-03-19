@@ -127,78 +127,78 @@ export function ChapterHub({
   const copy =
     locale === 'ar'
       ? {
-          title: 'فصول الحكاية',
-          subtitle: 'الأبواب بتتفتح بالتدريج... كل فصل له وقته.',
-          progressLabel: 'تقدم المشاهدة',
-          continueCta: 'كملي من آخر محطة',
-          reset: 'إعادة التقدم',
-        }
+        title: 'فصول الحكاية',
+        subtitle: 'الأبواب بتتفتح بالتدريج... كل فصل له وقته.💖',
+        progressLabel: 'تقدم المشاهدة',
+        continueCta: 'كملي من آخر فصل💖',
+        reset: 'إعادة التقدم🔃',
+      }
       : {
-          title: 'Story Chapters',
-          subtitle: 'Chapters unlock in sequence and each one has its own gate.',
-          progressLabel: 'Viewing Progress',
-          continueCta: 'Continue Journey',
-          reset: 'Reset Progress',
-        }
+        title: 'Story Chapters',
+        subtitle: 'Chapters unlock in sequence and each one has its own gate.',
+        progressLabel: 'Viewing Progress',
+        continueCta: 'Continue Journey',
+        reset: 'Reset Progress',
+      }
 
   const celebrationCopy =
     locale === 'ar'
       ? {
-          popupBlocked:
-            'تعذر فتح العرض تلقائياً. استخدمي الرابط المباشر أسفل الزر.',
-          invalidUrl: 'رابط العرض النهائي غير صالح حالياً.',
-          openDirect: 'فتح الرابط مباشرة',
-        }
+        popupBlocked:
+          'تعذر فتح العرض تلقائياً. استخدمي الرابط المباشر أسفل الزر.',
+        invalidUrl: 'رابط العرض النهائي غير صالح حالياً.',
+        openDirect: 'فتح الرابط مباشرة',
+      }
       : {
-          popupBlocked:
-            'The celebration could not open automatically. Use the direct link below.',
-          invalidUrl: 'The final celebration link is currently invalid.',
-          openDirect: 'Open direct link',
-        }
+        popupBlocked:
+          'The celebration could not open automatically. Use the direct link below.',
+        invalidUrl: 'The final celebration link is currently invalid.',
+        openDirect: 'Open direct link',
+      }
 
   const fireworksCopy =
     locale === 'ar'
       ? {
-          start: '🎆 ابدأ العرض النهائي',
-          hint: 'عرض خاص من الألعاب النارية',
-        }
+        start: '🎆 ابدأ العرض النهائي',
+        hint: 'عرض خاص من الألعاب النارية🎉💓',
+      }
       : {
-          start: 'Start Final Fireworks',
-          hint: 'A special celebration is ready for you.',
-        }
+        start: 'Start Final Fireworks',
+        hint: 'A special celebration is ready for you.',
+      }
 
   const constellationCopy =
     locale === 'ar'
       ? {
-          button: '✨ كوكبة الذكريات',
-          hint: 'استكشفي ذكرياتنا وسط النجوم',
-        }
+        button: '✨ كوكب ذكرياتنا',
+        hint: 'شوفي ذكرياتنا وسط النجوم',
+      }
       : {
-          button: '✨ Memory Constellation',
-          hint: 'Explore our memories among the stars',
-        }
+        button: '✨ Memory Constellation',
+        hint: 'Explore our memories among the stars',
+      }
 
   const finalMessageCopy =
     locale === 'ar'
       ? {
-          button: '💌 رسالتي الأخيرة ليكي',
-          hint: 'و رسالة خاصة مستنياكي',
-        }
+        button: '💌 رسالتي الأخيرة ليكي',
+        hint: 'و رسالة خاصة مستنياكي',
+      }
       : {
-          button: '💌 Final Message',
-          hint: 'A special message awaits you',
-        }
+        button: '💌 Final Message',
+        hint: 'A special message awaits you',
+      }
 
   const sealedCopy =
     locale === 'ar'
       ? {
-          button: '💌 كبسولة الزمن',
-          hint: 'هتتفتح في الوقت المناسب',
-        }
+        button: '💌 كبسولة الزمن',
+        hint: 'هتتفتح في الوقت المناسب',
+      }
       : {
-          button: '💌 Sealed Letter',
-          hint: 'A promise saved for the right time',
-        }
+        button: '💌 Sealed Letter',
+        hint: 'A promise saved for the right time',
+      }
 
   const canOpenCelebration = isValidHttpUrl(finalCelebrationUrl)
   const celebrationErrorToShow = !canOpenCelebration

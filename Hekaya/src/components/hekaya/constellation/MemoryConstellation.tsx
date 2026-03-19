@@ -41,15 +41,15 @@ export function MemoryConstellation({
   const copy =
     locale === 'ar'
       ? {
-          close: 'الرجوع للفهرس',
-          complete: 'إنهاء الاستكشاف',
-          pickHint: 'اختاري نجمة علشان تظهَر الذكرى',
-        }
+        close: 'الرجوع لصحة الفصول',
+        complete: 'إنهاء الاستكشاف',
+        pickHint: 'اختاري نجمة علشان تظهَر الذكرى❤️🌚',
+      }
       : {
-          close: 'Back to Hub',
-          complete: 'Finish Exploration',
-          pickHint: 'Select a star to view the memory',
-        }
+        close: 'Back to Hub',
+        complete: 'Finish Exploration',
+        pickHint: 'Select a star to view the memory',
+      }
 
   return (
     <motion.div
