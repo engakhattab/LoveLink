@@ -97,7 +97,7 @@ export const lamsaCopy: Record<GiftLocale, LamsaCopy> = {
     closingEyebrow: 'حاجه أخيرة',
     closingTitle: 'شكرًا لأنكِ معايا❤️',
     closingText: 'الهدية بسيطة، لكن كل تفصيل فيها اخترته بحب عشانك.',
-    signaturePrefix: 'حبيبتي،❤️',
+    signaturePrefix: 'حبيبك،❤️',
     invalidConfigTitle: 'بيانات القالب تحتاج تعديل',
     invalidConfigText: 'باقة لمسة تتطلب 4 مسارات صور فقط داخل ملف البيانات.',
   },
