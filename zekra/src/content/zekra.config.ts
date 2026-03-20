@@ -1,7 +1,7 @@
 import type { ZekraConfig } from '../types/zekra'
 
 export const zekraConfig: ZekraConfig = {
-  receiverName: 'ليلى',
+  receiverName: 'مريم',
   senderName: 'كريم',
   unlockDate: {
     year: 2024,
@@ -38,7 +38,7 @@ export const zekraConfig: ZekraConfig = {
   photos: [
     {
       src: '/images/zekra/stocksnap-couple_1.jpg',
-      caption: 'مساء طويل وهدوء يشبهنا.',
+      caption: 'مساء طويل وهدوء شبهنا.',
     },
     {
       src: '/images/zekra/stocksnap-couple_2.jpg',
